@@ -1,0 +1,115 @@
+---
+import { FileText, ServerOff, ShieldCheck, WifiOff } from "@lucide/astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteNav from "@/components/SiteNav.astro";
+import { site } from "@/data/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const principles = [
+  {
+    title: "Local by default",
+    body: "Your bid PDFs, specs, workbooks, packets, and lessons live in folders on your machine.",
+    icon: ServerOff,
+  },
+  {
+    title: "No telemetry",
+    body: "The free core does not report usage, filenames, projects, trades, or command history.",
+    icon: WifiOff,
+  },
+  {
+    title: "Source-backed outputs",
+    body: "The workbook is written from approved JSON and source pages. AI reads and drafts. Code transcribes.",
+    icon: FileText,
+  },
+  {
+    title: "Open core",
+    body: "The public tool is MIT-licensed. Your IT team can inspect the local workflow instead of trusting a black box.",
+    icon: ShieldCheck,
+  },
+];
+---
+
+<BaseLayout
+  title="Security and data handling | contractor-bid"
+  description="contractor-bid is local-first bid package automation. Plans stay on your machine, the free core has no telemetry, and generated outputs stay source-backed."
+>
+  <SiteNav />
+  <main id="main-content">
+    <section class="subpage-hero">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">SECURITY</p>
+          <h1>Your bid docs stay on your machine.</h1>
+        </div>
+        <p class="lead">
+          contractor-bid is designed for estimators who cannot upload a GC plan room to
+          a random AI cloud. The core workflow runs locally, writes local files, and
+          keeps the human review gates visible.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container cards">
+        {
+          principles.map(item => {
+            const Icon = item.icon;
+            return (
+              <article class="card">
+                <Icon size={28} aria-hidden="true" />
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <section class="section tight trust-band">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">DATA FLOW</p>
+          <h2>What leaves your machine?</h2>
+        </div>
+        <div>
+          <p class="lead">
+            In the current local product, your bid documents do not leave your machine
+            because contractor-bid is not a hosted file processor. Future hosted beta
+            work will have its own retention policy before it ships.
+          </p>
+          <div class="path-grid">
+            <div class="path-box">
+              <code>contractor-bid version --check</code>
+              <p>Opt-in version lookup against a public static JSON file.</p>
+            </div>
+            <div class="path-box">
+              <code>contractor-bid activate</code>
+              <p>Future Pro license validation against Lemon Squeezy, key only.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">HUMAN REVIEW</p>
+          <h2>AI is bounded on purpose.</h2>
+        </div>
+        <div>
+          <p class="lead">
+            The model can classify, summarize, and draft. It does not get to invent
+            quantities or final pricing. You approve the sources, then deterministic
+            code writes the workbook from that approved source list.
+          </p>
+          <a class="button secondary" href={site.productRepo}>
+            Inspect the source
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

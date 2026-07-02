@@ -1,0 +1,35 @@
+---
+import { BookOpen, GitFork, Wrench } from "@lucide/astro";
+import { navLinks, site } from "@/data/site";
+---
+
+<header class="site-header">
+  <nav class="container nav-wrap" aria-label="Primary">
+    <a class="brand" href="/" aria-label="contractor-bid home">
+      <span class="brand-mark">cb</span>
+      <span>contractor-bid</span>
+    </a>
+    <ul class="nav-links">
+      {
+        navLinks.map(link => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="nav-actions">
+      <a class="icon-link" href={site.productRepo} aria-label="GitHub repository">
+        <GitFork size={20} aria-hidden="true" />
+        <span class="mono">{site.githubStars}</span>
+      </a>
+      <a class="button orange" href="/dfy" data-plausible-event-name="dfy_click">
+        <Wrench size={18} aria-hidden="true" />
+        Get setup
+      </a>
+      <a class="icon-link" href={site.docsUrl} aria-label="Docs">
+        <BookOpen size={20} aria-hidden="true" />
+      </a>
+    </div>
+  </nav>
+</header>

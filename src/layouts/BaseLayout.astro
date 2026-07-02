@@ -1,0 +1,110 @@
+---
+import { site } from "@/data/site";
+import "@/styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+};
+
+const {
+  title = site.title,
+  description = site.description,
+  ogImage = "/og.png",
+  noindex = false,
+} = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(ogImage, Astro.site);
+
+const softwareSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "contractor-bid",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "macOS, Windows, Linux",
+  description,
+  url: "https://contractortakeoff.ai/",
+  offers: [
+    {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "USD",
+      name: "Free open source core",
+    },
+    {
+      "@type": "Offer",
+      price: "290",
+      priceCurrency: "USD",
+      name: "Founding Pro",
+    },
+    {
+      "@type": "Offer",
+      price: "750",
+      priceCurrency: "USD",
+      name: "Done-for-you bid pipeline setup",
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="theme-color" content="#F6F4EF" />
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(softwareSchema)}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="site-shell">
+      <slot />
+    </div>
+    <script is:inline>
+      const copyButtons = document.querySelectorAll("[data-copy]");
+
+      copyButtons.forEach(button => {
+        button.addEventListener("click", async () => {
+          const value = button.getAttribute("data-copy") || "";
+          const defaultLabel = button.getAttribute("data-label") || button.textContent;
+
+          try {
+            await navigator.clipboard.writeText(value);
+            button.setAttribute("data-copied", "true");
+            button.querySelector("[data-copy-text]").textContent = "Copied";
+            window.plausible?.("install_copy");
+            window.setTimeout(() => {
+              button.removeAttribute("data-copied");
+              button.querySelector("[data-copy-text]").textContent =
+                defaultLabel.trim() || "Copy install";
+            }, 1800);
+          } catch {
+            button.querySelector("[data-copy-text]").textContent = value;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

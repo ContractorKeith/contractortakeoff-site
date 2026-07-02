@@ -1,0 +1,142 @@
+---
+import { CircleCheck, Mail, PackageCheck, Wrench } from "@lucide/astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteNav from "@/components/SiteNav.astro";
+import { site } from "@/data/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const included = [
+  "30-minute kickoff screen-share",
+  "CLI, MCP server, and agent plugin installed",
+  "Custom trade profile with scope terms, exclusions, flags, and proposal language",
+  "Proposal template, supplier list, and RFI pattern loaded",
+  "One live bid run end to end together",
+  "Recorded 10-minute handoff and one-page cheat sheet",
+  "12 months of Pro included",
+];
+
+const notIncluded = [
+  "Open-ended estimating consulting",
+  "Pricing the job for you",
+  "Cloud hosting or file storage",
+  "Custom feature promises outside the roadmap",
+];
+---
+
+<BaseLayout
+  title="Done-for-you bid pipeline setup | contractor-bid"
+  description="Keith installs contractor-bid, builds your trade profile, loads templates, and runs one live bid with you. First five setups are $750 and include 12 months of Pro."
+>
+  <SiteNav />
+  <main id="main-content">
+    <section class="subpage-hero">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">DONE-FOR-YOU SETUP</p>
+          <h1>I install the bid pipeline on your machine.</h1>
+        </div>
+        <div>
+          <p class="lead">
+            Built for specialty subs who want the result without wrestling a terminal.
+            We set up contractor-bid on your computer, build your trade profile, load
+            templates, and run your next live bid together.
+          </p>
+          <div class="section-actions">
+            <a
+              class="button orange"
+              href={`mailto:${site.supportEmail}?subject=DFY%20bid%20pipeline%20setup`}
+              id="booking"
+            >
+              <Wrench size={18} aria-hidden="true" />
+              Book setup
+            </a>
+            <a class="button secondary" href={`mailto:${site.supportEmail}`}>
+              <Mail size={18} aria-hidden="true" />
+              Ask first
+            </a>
+          </div>
+          <p class="note">First five setups: $750 flat. Then $1,500.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">FIXED SCOPE</p>
+          <h2>Four hours, one live bid, clean handoff.</h2>
+          <p>
+            The setup is intentionally narrow. The point is to get a working bid
+            pipeline into your current flow, not turn into a never-ending consulting
+            project.
+          </p>
+        </div>
+        <div class="two-column-list">
+          <article class="panel">
+            <h3>Included</h3>
+            <ul class="check-list">
+              {included.map(item => <li>{item}</li>)}
+            </ul>
+          </article>
+          <article class="panel">
+            <h3>Not included</h3>
+            <ul class="check-list">
+              {notIncluded.map(item => <li>{item}</li>)}
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="founding" class="section tight trust-band">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">FOUNDING PRO</p>
+          <h2>$290/yr locked for life.</h2>
+          <p class="lead">
+            Founding Pro is for estimators who want the Pro content pack today and the
+            v0.3.0 Pro features when licensing ships. It is limited to the first 20
+            customers.
+          </p>
+        </div>
+        <div class="panel">
+          <h3>What you get</h3>
+          <ul class="check-list">
+            <li>Pro Pack v0: deep fences and gates content first</li>
+            <li>License key for v0.3.0 Pro features</li>
+            <li>Priority email support</li>
+            <li>Roadmap vote for the next two deep trade packs</li>
+          </ul>
+          <a
+            class="button orange"
+            href={`mailto:${site.supportEmail}?subject=Founding%20Pro%20slot`}
+          >
+            <PackageCheck size={18} aria-hidden="true" />
+            Claim founding slot
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">THE HANDOFF</p>
+          <h2>You keep the files.</h2>
+        </div>
+        <div>
+          <p class="lead">
+            contractor-bid creates local folders, local JSON, local spreadsheets, local
+            packets, and local lessons. If you stop paying for Pro later, the open-source
+            core still works and the bids already generated are still yours.
+          </p>
+          <a class="button secondary" href="/security">
+            <CircleCheck size={18} aria-hidden="true" />
+            Read the security page
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

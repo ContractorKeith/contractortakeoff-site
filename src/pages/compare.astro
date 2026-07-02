@@ -1,0 +1,104 @@
+---
+import { ClipboardCheck, ExternalLink } from "@lucide/astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteNav from "@/components/SiteNav.astro";
+import { site } from "@/data/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const rows = [
+  {
+    category: "GC bid boards",
+    tools: "BuildingConnected, PlanHub, Downtobid",
+    fit: "Great for invites and plan distribution. They are not built to turn one subcontractor's messy bid folder into source-backed outputs.",
+  },
+  {
+    category: "Takeoff measurement",
+    tools: "Bluebeam, STACK, Togal, Kreo",
+    fit: "Great for measuring or managing quantities. contractor-bid handles the work before and after measurement: triage, packets, workbook scaffold, alerts, and sendoff.",
+  },
+  {
+    category: "Generic AI chat",
+    tools: "ChatGPT, Claude, Gemini",
+    fit: "Useful for writing and reasoning, but risky when plans leave your machine and answers are not tied to source pages. contractor-bid gives agents a local workflow and review gates.",
+  },
+  {
+    category: "Spreadsheet estimating",
+    tools: "Excel, Google Sheets, custom workbooks",
+    fit: "Keep them. contractor-bid builds the source-backed workbook scaffold so your pricing stays in the system you already trust.",
+  },
+];
+---
+
+<BaseLayout
+  title="contractor-bid compared | subcontractor bid workflow"
+  description="An honest comparison of contractor-bid against GC bid boards, takeoff measurement tools, generic AI chat, and spreadsheet estimating."
+>
+  <SiteNav />
+  <main id="main-content">
+    <section class="subpage-hero">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">COMPARE</p>
+          <h1>It fits between the invite and the estimate.</h1>
+        </div>
+        <p class="lead">
+          contractor-bid is not a plan room, not a pricing engine, and not a computer
+          vision takeoff tool. It owns the four hours of PDF shuffling before you can
+          confidently measure and price.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Common tools</th>
+              <th>Where contractor-bid fits</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              rows.map(row => (
+                <tr>
+                  <td><strong>{row.category}</strong></td>
+                  <td>{row.tools}</td>
+                  <td>{row.fit}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section tight">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">POSITIONING</p>
+          <h2>Use the tools you already trust.</h2>
+        </div>
+        <div>
+          <p class="lead">
+            The practical stack is boring: GC invite system, contractor-bid for local
+            bid setup, Bluebeam or your preferred viewer for measurement, then your
+            estimating spreadsheet. contractor-bid makes the handoffs less chaotic.
+          </p>
+          <div class="section-actions">
+            <a class="button orange" href="/dfy">
+              <ClipboardCheck size={18} aria-hidden="true" />
+              Get setup
+            </a>
+            <a class="button secondary" href={site.docsUrl}>
+              <ExternalLink size={18} aria-hidden="true" />
+              Read docs
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

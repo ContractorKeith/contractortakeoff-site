@@ -1,0 +1,371 @@
+---
+import {
+  BookOpen,
+  Clipboard,
+  Clock3,
+  FileArchive,
+  FileCheck,
+  FileSpreadsheet,
+  FileText,
+  GitFork,
+  Mail,
+  PackageCheck,
+  SearchCheck,
+  Send,
+  TriangleAlert,
+  Wrench,
+} from "@lucide/astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteNav from "@/components/SiteNav.astro";
+import { site } from "@/data/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const outputs = [
+  { label: "Bid Scope Summary", icon: FileText },
+  { label: "scope-pages.pdf", icon: FileCheck },
+  { label: "spec-pages.pdf", icon: BookOpen },
+  { label: "Takeoff Worksheet", icon: FileSpreadsheet },
+  { label: "Proposal Letter", icon: Clipboard },
+  { label: "ALERTS.md", icon: TriangleAlert },
+  { label: "Bid Tracker", icon: Clock3 },
+  { label: "supplier sendoff zip", icon: FileArchive },
+];
+
+const faqs = [
+  {
+    question: "Do I need to use a terminal?",
+    answer:
+      "No. Either I set it up for you, or you drive it through Claude, Codex, or Cursor in plain English. The terminal is there for people who want it.",
+  },
+  {
+    question: "Where do my bid documents go?",
+    answer:
+      "They stay in a folder on your machine. The core is MIT-licensed, so your IT team can read every line.",
+  },
+  {
+    question: "Does it do takeoff measurement?",
+    answer:
+      "It builds the source-backed workbook and page packets. You or your Bluebeam workflow still measure. It refuses to guess quantities.",
+  },
+  {
+    question: "Will it price the job?",
+    answer:
+      "No. Pricing is your judgment. This clears the PDF shuffle before pricing starts.",
+  },
+  {
+    question: "What trades?",
+    answer:
+      "Starter profiles cover CSI Divisions 03 through 33. Deeper Pro packs start with fences and gates, then expand by founding-member demand.",
+  },
+  {
+    question: "Scanned plan sets?",
+    answer:
+      "Vector PDFs work today. Pro adds OCR for scanned sets at v0.3.0.",
+  },
+  {
+    question: "What happens if Keith disappears?",
+    answer:
+      "The core is open source and your bids are local files. You keep your data, workflows, and generated packages.",
+  },
+  {
+    question: "Refunds?",
+    answer:
+      "Founding Pro and DFY setup follow a 14-day refund policy, no questions.",
+  },
+];
+---
+
+<BaseLayout>
+  <SiteNav />
+  <main id="main-content">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">FOR COMMERCIAL SUBCONTRACTORS</p>
+          <h1 id="hero-title">From bid invite to supplier-ready package. Before lunch.</h1>
+          <p class="hero-sub lead">
+            contractor-bid turns a messy bid package into a source-backed workspace:
+            your scope pages isolated, specs pulled, takeoff workbook built, traps
+            flagged, supplier sendoff zipped. On your machine. Nothing uploaded anywhere.
+          </p>
+          <div class="hero-actions">
+            <a class="button orange" href="/dfy" data-plausible-event-name="dfy_click">
+              <Wrench size={20} aria-hidden="true" />
+              Get it set up for you $750
+            </a>
+            <button
+              class="copy-command"
+              type="button"
+              data-copy={site.installCommand}
+              data-label="Copy install"
+            >
+              <Clipboard size={19} aria-hidden="true" />
+              <span data-copy-text>Copy install</span>
+              <code>{site.installCommand}</code>
+            </button>
+            <a class="button ghost" href={site.productRepo}>
+              <GitFork size={20} aria-hidden="true" />
+              Star the repo
+            </a>
+          </div>
+          <p class="note">Free core requires Python 3.11+ and Poppler for best PDF extraction.</p>
+        </div>
+        <div class="hero-media" aria-label="contractor-bid terminal demo preview">
+          <div class="media-frame">
+            <img
+              src="/images/terminal-demo.webp"
+              alt="Terminal preview showing contractor-bid running triage, workbook, alerts, and supplier sendoff commands"
+              width="1440"
+              height="900"
+              loading="eager"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="proof-row" aria-label="Common bid setup problems">
+      <div class="proof-cell">
+        <p>400 pages, 3 addenda, one afternoon gone before you price a foot of work.</p>
+      </div>
+      <div class="proof-cell">
+        <p>One missed addendum or one word of scope drift eats the whole margin.</p>
+      </div>
+      <div class="proof-cell">
+        <p>Cloud AI tools want the GC's plan room uploaded. Your NDA disagrees.</p>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="section">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">HOW IT WORKS</p>
+          <h2>Review, don't hunt.</h2>
+          <p class="lead">
+            The pipeline turns bid documents into a working folder an estimator can
+            inspect, correct, and send out. Every output has a source trail.
+          </p>
+          <div class="media-frame">
+            <img
+              src="/images/workflow-capture.webp"
+              alt="Generated screenshot of contractor-bid workflow outputs"
+              width="1000"
+              height="650"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class="step-list">
+          <article class="step">
+            <span class="step-number">1</span>
+            <div>
+              <h3>Drop the docs.</h3>
+              <p>
+                Plans, specs, addenda, and bid forms go in `bid-docs/`. The original
+                files stay untouched.
+              </p>
+            </div>
+          </article>
+          <article class="step">
+            <span class="step-number">2</span>
+            <div>
+              <h3>Approve the scope.</h3>
+              <p>
+                Triage finds scope pages and proposes them. You approve the sources
+                before packets, summary, and workbook get built.
+              </p>
+            </div>
+          </article>
+          <article class="step">
+            <span class="step-number">3</span>
+            <div>
+              <h3>Send it off.</h3>
+              <p>
+                Scope-drift alerts, proposal language, and a supplier-ready zip land in
+                a folder you can open and audit.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="container artifact-grid" aria-label="Generated outputs">
+        {
+          outputs.map(item => {
+            const Icon = item.icon;
+            return (
+              <div class="artifact">
+                <Icon size={24} aria-hidden="true" />
+                <strong>{item.label}</strong>
+              </div>
+            );
+          })
+        }
+      </div>
+    </section>
+
+    <section class="trust-band section">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">SOURCE-BACKED AI</p>
+          <h2>AI that can't invent your numbers.</h2>
+          <p class="lead">
+            The model reads, classifies, summarizes, and drafts. Deterministic code
+            writes every quantity from JSON you approved, tied to a source page. If a
+            number is in the workbook, you can prove where it came from.
+          </p>
+        </div>
+        <div>
+          <div class="media-frame">
+            <img
+              src="/images/source-workspace.webp"
+              alt="Side-by-side bid-docs and generated working folder preview"
+              width="1000"
+              height="650"
+              loading="lazy"
+            />
+          </div>
+          <div class="path-grid" aria-label="Local workspace folders">
+            <div class="path-box">
+              <code>bid-docs/</code>
+              <p>Yours, untouched. Plans, specs, forms, addenda.</p>
+            </div>
+            <div class="path-box">
+              <code>bid-package-working/</code>
+              <p>Generated, reviewable. Packets, workbook, alerts, zip.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">BUILT BY AN ESTIMATOR</p>
+          <h2>Not a VC takeoff fantasy.</h2>
+        </div>
+        <div class="quote-block">
+          <p class="lead">
+            Built by Keith Bloemendaal. 37 years in construction. Master plumber,
+            journeyman electrician, founded and sold a homebuilding company, currently
+            estimating commercial fence in Florida. This tool exists because I bid work
+            every week and got tired of the paper shuffle.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section tight" aria-labelledby="pricing-title">
+      <div class="container">
+        <p class="eyebrow">PRICING</p>
+        <h2 id="pricing-title">Free core. Paid trade depth.</h2>
+        <div class="cards">
+          <article class="card">
+            <h3>Free</h3>
+            <div class="price">$0</div>
+            <ul>
+              <li>Open-source CLI, MCP server, and agent plugins</li>
+              <li>22 CSI starter profiles and bid tracker</li>
+              <li>Community support through GitHub</li>
+            </ul>
+            <button
+              class="button secondary"
+              type="button"
+              data-copy={site.installCommand}
+              data-label="Copy install"
+            >
+              <Clipboard size={18} aria-hidden="true" />
+              <span data-copy-text>Copy install</span>
+            </button>
+          </article>
+
+          <article class="card featured">
+            <h3>Founding Pro</h3>
+            <div class="price">$290/yr</div>
+            <ul>
+              <li>Locked for life for the first 20 customers</li>
+              <li>Deep trade profile packs and template library</li>
+              <li>Addenda diff, OCR, email drafts, and calendar at v0.3.0</li>
+              <li>Priority email support and roadmap vote</li>
+            </ul>
+            <a class="button orange" href="/dfy#founding" data-plausible-event-name="founding_click">
+              <PackageCheck size={18} aria-hidden="true" />
+              Claim a founding slot
+            </a>
+          </article>
+
+          <article class="card">
+            <h3>Shop</h3>
+            <div class="price">$149/mo</div>
+            <ul>
+              <li>5 seats and 10 activations</li>
+              <li>Shared profiles and lesson sync pattern</li>
+              <li>60-minute onboarding screen-share</li>
+            </ul>
+            <a class="button secondary" href={`mailto:${site.supportEmail}?subject=Shop%20plan`}>
+              <Mail size={18} aria-hidden="true" />
+              Email for Shop
+            </a>
+          </article>
+        </div>
+
+        <div class="service-banner">
+          <div>
+            <h3>Done-for-you setup: $750 flat</h3>
+            <p>
+              First five setups, then $1,500. I install everything, build your trade
+              profile, load templates, and run your next live bid with you. Includes a
+              year of Pro.
+            </p>
+          </div>
+          <a class="button orange" href="/dfy">
+            <Wrench size={18} aria-hidden="true" />
+            Get the setup
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight" aria-labelledby="faq-title">
+      <div class="container">
+        <p class="eyebrow">FAQ</p>
+        <h2 id="faq-title">Plain answers.</h2>
+        <div class="faq-grid">
+          {
+            faqs.map(item => (
+              <details>
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight">
+      <div class="container split">
+        <div>
+          <p class="eyebrow">NEXT STEP</p>
+          <h2>Run the free core or get the pipeline installed.</h2>
+        </div>
+        <div class="section-actions">
+          <a class="button orange" href="/dfy">
+            <Wrench size={18} aria-hidden="true" />
+            Get setup
+          </a>
+          <a class="button secondary" href={site.docsUrl}>
+            <SearchCheck size={18} aria-hidden="true" />
+            Read the docs
+          </a>
+          <a class="button ghost" href={`mailto:${site.supportEmail}`}>
+            <Send size={18} aria-hidden="true" />
+            Ask a question
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

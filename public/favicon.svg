@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">contractor-bid</title>
+  <rect width="64" height="64" rx="8" fill="#F4501E"/>
+  <rect x="8" y="8" width="48" height="48" rx="4" fill="#16181B"/>
+  <path d="M20 38V24h9c4 0 7 3 7 7s-3 7-7 7h-9Zm7-6h2c1 0 2-1 2-2s-1-2-2-2h-2v4Zm15 6V24h5v14h-5Z" fill="#F6F4EF"/>
+</svg>
