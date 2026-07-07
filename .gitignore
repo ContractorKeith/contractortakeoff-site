@@ -6,3 +6,7 @@ dist/
 .env.*
 .DS_Store
 npm-debug.log*
+
+# BridgeMemory: local/private memory stays machine-local
+.bridgememory/local/
+.bridgememory/private/
