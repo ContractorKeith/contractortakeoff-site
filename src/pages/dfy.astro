@@ -1,18 +1,20 @@
 ---
-import { CircleCheck, Mail, PackageCheck, Wrench } from "@lucide/astro";
+import { Mail, Wrench } from "@lucide/astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SiteNav from "@/components/SiteNav.astro";
 import { site } from "@/data/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
+const dfyMailto = `mailto:${site.supportEmail}?subject=DFY%20pilot%20onboarding`;
+
 const included = [
   "30-minute kickoff screen-share",
-  "CLI, MCP server, and agent plugin installed",
+  "Free engine installed on your machine: CLI and MCP server",
   "Custom trade profile with scope terms, exclusions, flags, and proposal language",
   "Proposal template, supplier list, and RFI pattern loaded",
-  "One live bid run end to end together",
+  "Your next live bid run end to end, together",
   "Recorded 10-minute handoff and one-page cheat sheet",
-  "12 months of Pro included",
+  "First access to the Contractor Takeoff app pilot",
 ];
 
 const notIncluded = [
@@ -21,64 +23,74 @@ const notIncluded = [
   "Cloud hosting or file storage",
   "Custom feature promises outside the roadmap",
 ];
+
+const steps = [
+  {
+    title: "Kickoff call",
+    body: "We screen-share. I install the free MIT engine on your machine while you watch. Nothing leaves your computer.",
+  },
+  {
+    title: "Your trade profile",
+    body: "I build your scope terms, exclusions, red flags, and proposal language into the engine so triage speaks your trade.",
+  },
+  {
+    title: "Templates loaded",
+    body: "Your proposal template, supplier list, and RFI pattern go in. The output looks like your paperwork, not mine.",
+  },
+  {
+    title: "One live bid",
+    body: "We run your next real bid together, invite to sendoff. You leave with a working pipeline and a finished packet.",
+  },
+];
 ---
 
 <BaseLayout
-  title="Done-for-you bid pipeline setup | contractor-bid"
-  description="Keith installs contractor-bid, builds your trade profile, loads templates, and runs one live bid with you. First five setups are $750 and include 12 months of Pro."
+  title="Done-for-you pilot onboarding | Contractor Takeoff"
+  description="Keith installs the free contractor-bid engine on your machine, builds your trade profile, loads your templates, and runs your next live bid with you. $750 flat for the first five, with first access to the Contractor Takeoff app pilot."
 >
   <SiteNav />
   <main id="main-content">
     <section class="subpage-hero">
       <div class="container split">
-        <div>
-          <p class="eyebrow">DONE-FOR-YOU SETUP</p>
-          <h1>I install the bid pipeline on your machine.</h1>
+        <div class="reveal">
+          <p class="eyebrow">DFY 01 / PILOT ONBOARDING</p>
+          <h1>I set it up. You bid.</h1>
         </div>
-        <div>
+        <div class="reveal" style="--reveal-delay: 120ms">
           <p class="lead">
-            Built for specialty subs who want the result without wrestling a terminal.
-            We set up contractor-bid on your computer, build your trade profile, load
-            templates, and run your next live bid together.
+            Built for specialty subs who want the result without wrestling a
+            terminal. I install the free engine on your machine today, build
+            your trade profile, load your templates, and run your next live bid
+            with you. You also get first access to the Contractor Takeoff app
+            pilot.
           </p>
-          <div class="section-actions">
-            <a
-              class="button orange"
-              href={`mailto:${site.supportEmail}?subject=DFY%20bid%20pipeline%20setup`}
-              id="booking"
-            >
-              <Wrench size={18} aria-hidden="true" />
-              Book setup
-            </a>
-            <a class="button secondary" href={`mailto:${site.supportEmail}`}>
-              <Mail size={18} aria-hidden="true" />
-              Ask first
-            </a>
-          </div>
-          <p class="note">First five setups: $750 flat. Then $1,500.</p>
+          <p class="note mono">
+            First five setups: <strong>$750 flat</strong>. Then $1,500. 14-day
+            refund, no argument.
+          </p>
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="container split">
-        <div>
-          <p class="eyebrow">FIXED SCOPE</p>
+        <div class="reveal">
+          <p class="eyebrow">DFY 02 / FIXED SCOPE</p>
           <h2>Four hours, one live bid, clean handoff.</h2>
           <p>
-            The setup is intentionally narrow. The point is to get a working bid
-            pipeline into your current flow, not turn into a never-ending consulting
-            project.
+            The setup is intentionally narrow. The point is to get a working
+            bid pipeline into your current flow, not turn into a never-ending
+            consulting project.
           </p>
         </div>
-        <div class="two-column-list">
-          <article class="panel">
+        <div class="two-column-list stagger">
+          <article class="panel reveal">
             <h3>Included</h3>
             <ul class="check-list">
               {included.map(item => <li>{item}</li>)}
             </ul>
           </article>
-          <article class="panel">
+          <article class="panel reveal">
             <h3>Not included</h3>
             <ul class="check-list">
               {notIncluded.map(item => <li>{item}</li>)}
@@ -88,55 +100,138 @@ const notIncluded = [
       </div>
     </section>
 
-    <section id="founding" class="section tight trust-band">
-      <div class="container split">
-        <div>
-          <p class="eyebrow">FOUNDING PRO</p>
-          <h2>$290/yr locked for life.</h2>
-          <p class="lead">
-            Founding Pro is for estimators who want the Pro content pack today and the
-            v0.3.0 Pro features when licensing ships. It is limited to the first 20
-            customers.
-          </p>
+    <div class="dither-edge" aria-hidden="true"></div>
+    <section class="section dark">
+      <div class="container">
+        <div class="reveal">
+          <p class="eyebrow">DFY 03 / HOW IT GOES</p>
+          <h2>What the $750 buys, in order.</h2>
         </div>
-        <div class="panel">
-          <h3>What you get</h3>
-          <ul class="check-list">
-            <li>Pro Pack v0: deep fences and gates content first</li>
-            <li>License key for v0.3.0 Pro features</li>
-            <li>Priority email support</li>
-            <li>Roadmap vote for the next two deep trade packs</li>
-          </ul>
-          <a
-            class="button orange"
-            href={`mailto:${site.supportEmail}?subject=Founding%20Pro%20slot`}
-          >
-            <PackageCheck size={18} aria-hidden="true" />
-            Claim founding slot
-          </a>
+        <div class="dfy-steps stagger">
+          {
+            steps.map((step, index) => (
+              <article class="dfy-step reveal">
+                <span class="dfy-step-num mono">0{index + 1}</span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+    <div class="dither-edge flip" aria-hidden="true"></div>
+
+    <section class="section tight">
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">DFY 04 / FIRST ACCESS</p>
+          <h2>You go to the front of the pilot line.</h2>
+        </div>
+        <div class="reveal" style="--reveal-delay: 120ms">
+          <p class="lead">
+            The Contractor Takeoff app is in pilot, not publicly live. DFY
+            customers get first access as pilot seats open: the hosted bid
+            board, per-bid document library, and Plan Markup embedded, built on
+            the same free engine already running on your machine. Until your
+            seat opens, the local engine carries your bids on its own.
+          </p>
         </div>
       </div>
     </section>
 
     <section class="section tight">
       <div class="container split">
-        <div>
-          <p class="eyebrow">THE HANDOFF</p>
+        <div class="reveal">
+          <p class="eyebrow">DFY 05 / THE HANDOFF</p>
           <h2>You keep the files.</h2>
         </div>
-        <div>
+        <div class="reveal" style="--reveal-delay: 120ms">
           <p class="lead">
-            contractor-bid creates local folders, local JSON, local spreadsheets, local
-            packets, and local lessons. If you stop paying for Pro later, the open-source
-            core still works and the bids already generated are still yours.
+            The engine creates local folders, local JSON, local spreadsheets,
+            local packets, and local lessons. It is MIT-licensed and free
+            forever. If you never touch the hosted app, everything we set up
+            still works and every bid it generated is still yours.
           </p>
-          <a class="button secondary" href="/security">
-            <CircleCheck size={18} aria-hidden="true" />
-            Read the security page
-          </a>
+          <p class="note mono">
+            Not what you expected? Email me within 14 days for a full refund.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking" class="section tight trust-band">
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">DFY 06 / BOOK IT</p>
+          <h2>Grab one of the five slots.</h2>
+        </div>
+        <div class="reveal" style="--reveal-delay: 120ms">
+          <p class="lead">
+            Email me. Tell me your trade and when your next bid is due. I will
+            reply with two time slots and a short prep list.
+          </p>
+          <div class="section-actions">
+            <a class="button safety" href={dfyMailto}>
+              <Wrench size={18} aria-hidden="true" />
+              Book my setup: $750
+            </a>
+            <a class="button secondary" href={`mailto:${site.supportEmail}`}>
+              <Mail size={18} aria-hidden="true" />
+              Ask a question first
+            </a>
+          </div>
+          <p class="note mono">14-day refund. You keep the files either way.</p>
         </div>
       </div>
     </section>
   </main>
   <SiteFooter />
 </BaseLayout>
+
+<style>
+  /* four-step grid on the dark band */
+  .dfy-steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .dfy-step {
+    border: 1px solid var(--line-dark);
+    border-radius: var(--radius);
+    background: var(--slate-panel);
+    padding: 1.15rem;
+  }
+
+  .dfy-step-num {
+    display: block;
+    margin-bottom: 0.6rem;
+    color: var(--safety);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .dfy-step h3 {
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
+  }
+
+  .dfy-step p {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 980px) {
+    .dfy-steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .dfy-steps {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

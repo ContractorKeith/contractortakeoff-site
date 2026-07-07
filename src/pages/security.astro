@@ -5,15 +5,15 @@ import SiteNav from "@/components/SiteNav.astro";
 import { site } from "@/data/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-const principles = [
+const enginePrinciples = [
   {
-    title: "Local by default",
-    body: "Your bid PDFs, specs, workbooks, packets, and lessons live in folders on your machine.",
+    title: "Runs locally",
+    body: "Your bid PDFs, specs, workbooks, packets, and lessons live in folders on your machine. Plans never leave it.",
     icon: ServerOff,
   },
   {
     title: "No telemetry",
-    body: "The free core does not report usage, filenames, projects, trades, or command history.",
+    body: "The free engine does not report usage, filenames, projects, trades, or command history. Nothing phones home.",
     icon: WifiOff,
   },
   {
@@ -22,91 +22,127 @@ const principles = [
     icon: FileText,
   },
   {
-    title: "Open core",
-    body: "The public tool is MIT-licensed. Your IT team can inspect the local workflow instead of trusting a black box.",
+    title: "MIT open source",
+    body: "The engine is MIT-licensed. Your IT team can read every line instead of trusting a black box.",
     icon: ShieldCheck,
   },
 ];
 ---
 
 <BaseLayout
-  title="Security and data handling | contractor-bid"
-  description="contractor-bid is local-first bid package automation. Plans stay on your machine, the free core has no telemetry, and generated outputs stay source-backed."
+  title="Security and data handling | Contractor Takeoff"
+  description="How the Contractor Takeoff suite handles your plan data: the free engine runs locally with no telemetry, Plan Markup stores markups in local sidecar files, and the hosted app pilot uses private per-workspace storage."
 >
   <SiteNav />
   <main id="main-content">
     <section class="subpage-hero">
       <div class="container split">
-        <div>
-          <p class="eyebrow">SECURITY</p>
-          <h1>Your bid docs stay on your machine.</h1>
+        <div class="reveal">
+          <p class="eyebrow">SEC 01 / SECURITY</p>
+          <h1>Straight answers about your plan data.</h1>
         </div>
-        <p class="lead">
-          contractor-bid is designed for estimators who cannot upload a GC plan room to
-          a random AI cloud. The core workflow runs locally, writes local files, and
-          keeps the human review gates visible.
+        <p class="lead reveal" style="--reveal-delay: 120ms">
+          Estimators cannot upload a GC plan room to a random AI cloud. So the
+          suite is built local-first: the free engine and Plan Markup keep your
+          files on your machine, and the hosted app states plainly what it
+          stores and where. Three products, three honest answers.
         </p>
       </div>
     </section>
 
     <section class="section">
-      <div class="container cards">
-        {
-          principles.map(item => {
-            const Icon = item.icon;
-            return (
-              <article class="card">
-                <Icon size={28} aria-hidden="true" />
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </article>
-            );
-          })
-        }
+      <div class="container">
+        <div class="reveal">
+          <p class="eyebrow">SEC 02 / FREE ENGINE</p>
+          <h2>The engine never sees the internet.</h2>
+        </div>
+        <div class="cards stagger">
+          {
+            enginePrinciples.map(item => {
+              const Icon = item.icon;
+              return (
+                <article class="card reveal">
+                  <Icon size={28} aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
+              );
+            })
+          }
+        </div>
       </div>
     </section>
 
-    <section class="section tight trust-band">
+    <div class="dither-edge" aria-hidden="true"></div>
+    <section class="section dark">
       <div class="container split">
-        <div>
-          <p class="eyebrow">DATA FLOW</p>
-          <h2>What leaves your machine?</h2>
+        <div class="reveal">
+          <p class="eyebrow">SEC 03 / PLAN MARKUP</p>
+          <h2>Markups live next to your PDFs.</h2>
         </div>
-        <div>
+        <div class="reveal" style="--reveal-delay: 120ms">
           <p class="lead">
-            In the current local product, your bid documents do not leave your machine
-            because contractor-bid is not a hosted file processor. Future hosted beta
-            work will have its own retention policy before it ships.
+            Plan Markup writes your measurements and annotations to local
+            sidecar JSON files that sit right next to your plan PDFs. Your
+            original PDFs are never modified. Want to share with the team? The
+            sidecars sync through your own Dropbox or iCloud folder: your
+            accounts, your storage, no middleman server.
           </p>
           <div class="path-grid">
             <div class="path-box">
-              <code>contractor-bid version --check</code>
-              <p>Opt-in version lookup against a public static JSON file.</p>
+              <code>A-101.pdf</code>
+              <p>Your original plan sheet. Read, never rewritten.</p>
             </div>
             <div class="path-box">
-              <code>contractor-bid activate</code>
-              <p>Future Pro license validation against Lemon Squeezy, key only.</p>
+              <code>A-101.pdf.markup.json</code>
+              <p>Your markups and takeoff data, in a file you can open.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
+    <div class="dither-edge flip" aria-hidden="true"></div>
 
-    <section class="section tight">
+    <section class="section">
       <div class="container split">
-        <div>
-          <p class="eyebrow">HUMAN REVIEW</p>
+        <div class="reveal">
+          <p class="eyebrow">SEC 04 / HOSTED APP</p>
+          <h2>The app is in pilot. Here is what it does today.</h2>
+        </div>
+        <div class="reveal" style="--reveal-delay: 120ms">
+          <p class="lead">
+            Contractor Takeoff, the hosted bid command center, is in pilot and
+            not publicly live. In the pilot, documents you upload are stored in
+            private S3-compatible storage scoped to your workspace. Logins are
+            throttled and the app ships a content security policy. Full data
+            handling details will be published on this page before public
+            launch. If a claim is not written here, do not assume it.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight trust-band">
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">SEC 05 / HUMAN REVIEW</p>
           <h2>AI is bounded on purpose.</h2>
         </div>
-        <div>
+        <div class="reveal" style="--reveal-delay: 120ms">
           <p class="lead">
-            The model can classify, summarize, and draft. It does not get to invent
-            quantities or final pricing. You approve the sources, then deterministic
-            code writes the workbook from that approved source list.
+            Across the suite, the model can classify, summarize, and draft. It
+            does not get to invent quantities or final pricing. You approve the
+            sources, then deterministic code writes the outputs from that
+            approved list.
           </p>
-          <a class="button secondary" href={site.productRepo}>
-            Inspect the source
-          </a>
+          <div class="section-actions">
+            <a class="button safety" href={site.productRepo}>
+              Inspect the engine source
+            </a>
+            <a class="button secondary" href={`mailto:${site.supportEmail}?subject=Security%20question`}>
+              Ask a security question
+            </a>
+          </div>
         </div>
       </div>
     </section>

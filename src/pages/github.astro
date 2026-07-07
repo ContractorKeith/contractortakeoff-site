@@ -3,12 +3,12 @@ import { site } from "@/data/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="GitHub | contractor-bid" noindex>
-  <main class="subpage-hero">
+<BaseLayout title="GitHub | Contractor Takeoff" noindex>
+  <main id="main-content" class="subpage-hero">
     <div class="container">
       <p class="eyebrow">GITHUB</p>
-      <h1>Redirecting to GitHub.</h1>
-      <p><a class="button orange" href={site.productRepo}>Open GitHub</a></p>
+      <h1>Redirecting to the free engine on GitHub.</h1>
+      <p><a class="button safety" href={site.productRepo}>Open GitHub</a></p>
     </div>
   </main>
   <script is:inline define:vars={{ href: site.productRepo }}>

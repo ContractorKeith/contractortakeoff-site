@@ -2,15 +2,19 @@
 import BaseLayout from "@/layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="Founding Pro | contractor-bid" noindex>
-  <main class="subpage-hero">
+<BaseLayout title="Founding Pro is retired | Contractor Takeoff" noindex>
+  <main id="main-content" class="subpage-hero">
     <div class="container">
       <p class="eyebrow">FOUNDING PRO</p>
-      <h1>Redirecting to pricing.</h1>
-      <p><a class="button orange" href="/#pricing">Go to pricing</a></p>
+      <h1>Founding Pro is retired.</h1>
+      <p>
+        The offer that replaced it is done-for-you pilot onboarding.
+        Redirecting you there now.
+      </p>
+      <p><a class="button safety" href="/dfy">Go to pilot onboarding</a></p>
     </div>
   </main>
   <script is:inline>
-    window.location.replace("/#pricing");
+    window.location.replace("/dfy");
   </script>
 </BaseLayout>

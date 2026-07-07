@@ -22,7 +22,7 @@ const imageUrl = new URL(ogImage, Astro.site);
 const softwareSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "contractor-bid",
+  name: "Contractor Takeoff",
   applicationCategory: "BusinessApplication",
   operatingSystem: "macOS, Windows, Linux",
   description,
@@ -32,19 +32,13 @@ const softwareSchema = {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
-      name: "Free open source core",
-    },
-    {
-      "@type": "Offer",
-      price: "290",
-      priceCurrency: "USD",
-      name: "Founding Pro",
+      name: "Free open source engine",
     },
     {
       "@type": "Offer",
       price: "750",
       priceCurrency: "USD",
-      name: "Done-for-you bid pipeline setup",
+      name: "Done-for-you setup and pilot onboarding",
     },
   ],
 };
@@ -70,7 +64,7 @@ const softwareSchema = {
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
-    <meta name="theme-color" content="#F6F4EF" />
+    <meta name="theme-color" content="#F2F1EC" />
     <script
       type="application/ld+json"
       is:inline
@@ -83,6 +77,33 @@ const softwareSchema = {
       <slot />
     </div>
     <script is:inline>
+      // Scroll reveal: adds .in-view to .reveal elements once, on entry.
+      (() => {
+        const targets = document.querySelectorAll(".reveal");
+        const reduce = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
+
+        if (reduce || !("IntersectionObserver" in window)) {
+          targets.forEach(el => el.classList.add("in-view"));
+          return;
+        }
+
+        const observer = new IntersectionObserver(
+          entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("in-view");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.2 },
+        );
+
+        targets.forEach(el => observer.observe(el));
+      })();
+
       const copyButtons = document.querySelectorAll("[data-copy]");
 
       copyButtons.forEach(button => {

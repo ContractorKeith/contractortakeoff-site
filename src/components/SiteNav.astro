@@ -1,13 +1,23 @@
 ---
-import { BookOpen, GitFork, Wrench } from "@lucide/astro";
 import { navLinks, site } from "@/data/site";
 ---
 
 <header class="site-header">
   <nav class="container nav-wrap" aria-label="Primary">
-    <a class="brand" href="/" aria-label="contractor-bid home">
-      <span class="brand-mark">cb</span>
-      <span>contractor-bid</span>
+    <a class="brand" href="/" aria-label="Contractor Takeoff home">
+      <!-- Pixel brand mark: rising takeoff bars, steel with one safety pixel -->
+      <svg
+        class="brand-mark"
+        viewBox="0 0 8 8"
+        shape-rendering="crispEdges"
+        aria-hidden="true"
+      >
+        <rect x="0" y="5" width="2" height="3" fill="#1F5F8B"></rect>
+        <rect x="3" y="3" width="2" height="5" fill="#1F5F8B"></rect>
+        <rect x="6" y="3" width="2" height="5" fill="#1F5F8B"></rect>
+        <rect x="6" y="0" width="2" height="2" fill="#C7500F"></rect>
+      </svg>
+      <span>Contractor Takeoff</span>
     </a>
     <ul class="nav-links">
       {
@@ -19,16 +29,12 @@ import { navLinks, site } from "@/data/site";
       }
     </ul>
     <div class="nav-actions">
-      <a class="icon-link" href={site.productRepo} aria-label="GitHub repository">
-        <GitFork size={20} aria-hidden="true" />
-        <span class="mono">{site.githubStars}</span>
-      </a>
-      <a class="button orange" href="/dfy" data-plausible-event-name="dfy_click">
-        <Wrench size={18} aria-hidden="true" />
-        Get setup
-      </a>
-      <a class="icon-link" href={site.docsUrl} aria-label="Docs">
-        <BookOpen size={20} aria-hidden="true" />
+      <a
+        class="button steel"
+        href={site.pilotHref}
+        data-plausible-event-name="pilot_click"
+      >
+        Join the pilot
       </a>
     </div>
   </nav>

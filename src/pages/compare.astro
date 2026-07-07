@@ -1,5 +1,5 @@
 ---
-import { ClipboardCheck, ExternalLink } from "@lucide/astro";
+import { ExternalLink, Mail } from "@lucide/astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SiteNav from "@/components/SiteNav.astro";
 import { site } from "@/data/site";
@@ -7,56 +7,57 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
 const rows = [
   {
-    category: "GC bid boards",
-    tools: "BuildingConnected, PlanHub, Downtobid",
-    fit: "Great for invites and plan distribution. They are not built to turn one subcontractor's messy bid folder into source-backed outputs.",
+    category: "GC-side ITB tools",
+    tools: "BuildingConnected, Downtobid",
+    fit: "Great at what they do: GCs sending invites and distributing plan rooms. They serve the GC. Contractor Takeoff starts where they stop: the invite lands in your inbox and now the bid is your problem.",
   },
   {
     category: "Takeoff measurement",
-    tools: "Bluebeam, STACK, Togal, Kreo",
-    fit: "Great for measuring or managing quantities. contractor-bid handles the work before and after measurement: triage, packets, workbook scaffold, alerts, and sendoff.",
+    tools: "STACK, Togal",
+    fit: "Strong dedicated measurement platforms. If they fit your trade, keep them. This suite does not auto-measure anything: in Plan Markup a human draws every measurement, and Contractor Takeoff organizes the bid around whatever tool produced the numbers.",
   },
   {
-    category: "Generic AI chat",
-    tools: "ChatGPT, Claude, Gemini",
-    fit: "Useful for writing and reasoning, but risky when plans leave your machine and answers are not tied to source pages. contractor-bid gives agents a local workflow and review gates.",
+    category: "Measurement and markup",
+    tools: "Bluebeam Revu",
+    fit: "Revu is deeper, full stop. Plan Markup covers the 10% of Revu most estimators use daily: measure, count, markup, overlay, CSV totals. It exports Revu-compatible annotations, so a Revu shop can open your work. If you live in Revu's deep features, stay there.",
   },
   {
-    category: "Spreadsheet estimating",
-    tools: "Excel, Google Sheets, custom workbooks",
-    fit: "Keep them. contractor-bid builds the source-backed workbook scaffold so your pricing stays in the system you already trust.",
+    category: "The status quo",
+    tools: "Spreadsheets, email, shared folders",
+    fit: "This is what Contractor Takeoff actually replaces. Bid status in a spreadsheet, addenda buried in email, plans scattered across folders. The bid board, per-bid document library, and dated decisions put all of it in one place.",
   },
 ];
 ---
 
 <BaseLayout
-  title="contractor-bid compared | subcontractor bid workflow"
-  description="An honest comparison of contractor-bid against GC bid boards, takeoff measurement tools, generic AI chat, and spreadsheet estimating."
+  title="How the suite compares | Contractor Takeoff"
+  description="An honest comparison of the Contractor Takeoff suite against GC-side ITB tools, takeoff measurement platforms, Bluebeam Revu, and the spreadsheet-and-folders status quo."
 >
   <SiteNav />
   <main id="main-content">
     <section class="subpage-hero">
       <div class="container split">
-        <div>
-          <p class="eyebrow">COMPARE</p>
-          <h1>It fits between the invite and the estimate.</h1>
+        <div class="reveal">
+          <p class="eyebrow">CMP 01 / COMPARE</p>
+          <h1>It lives between the invite and the estimate.</h1>
         </div>
-        <p class="lead">
-          contractor-bid is not a plan room, not a pricing engine, and not a computer
-          vision takeoff tool. It owns the four hours of PDF shuffling before you can
-          confidently measure and price.
+        <p class="lead reveal" style="--reveal-delay: 120ms">
+          The suite is not a plan room, not a pricing engine, and not a
+          computer-vision takeoff tool. Contractor Takeoff runs the bid from
+          invite to sendoff, and Plan Markup handles the measuring and marking
+          in between. Here is where everything else fits, honestly.
         </p>
       </div>
     </section>
 
     <section class="section">
-      <div class="container">
+      <div class="container reveal">
         <table class="comparison-table">
           <thead>
             <tr>
               <th>Category</th>
               <th>Common tools</th>
-              <th>Where contractor-bid fits</th>
+              <th>Where the suite fits</th>
             </tr>
           </thead>
           <tbody>
@@ -74,26 +75,29 @@ const rows = [
       </div>
     </section>
 
-    <section class="section tight">
+    <div class="dither-edge" aria-hidden="true"></div>
+    <section class="section tight dark">
       <div class="container split">
-        <div>
-          <p class="eyebrow">POSITIONING</p>
-          <h2>Use the tools you already trust.</h2>
+        <div class="reveal">
+          <p class="eyebrow">CMP 02 / POSITIONING</p>
+          <h2>Keep the tools you already trust.</h2>
         </div>
-        <div>
+        <div class="reveal" style="--reveal-delay: 120ms">
           <p class="lead">
-            The practical stack is boring: GC invite system, contractor-bid for local
-            bid setup, Bluebeam or your preferred viewer for measurement, then your
-            estimating spreadsheet. contractor-bid makes the handoffs less chaotic.
+            The practical stack is boring: the GC's invite system, Contractor
+            Takeoff as the bid command center, Plan Markup or your preferred
+            measurement tool on the plans, then your estimating spreadsheet for
+            pricing. Pricing stays your judgment. The suite makes the handoffs
+            less chaotic.
           </p>
           <div class="section-actions">
-            <a class="button orange" href="/dfy">
-              <ClipboardCheck size={18} aria-hidden="true" />
-              Get setup
+            <a class="button safety" href={site.pilotHref}>
+              <Mail size={18} aria-hidden="true" />
+              Join the pilot
             </a>
             <a class="button secondary" href={site.docsUrl}>
               <ExternalLink size={18} aria-hidden="true" />
-              Read docs
+              Read the docs
             </a>
           </div>
         </div>

@@ -1,76 +1,141 @@
 ---
-import {
-  BookOpen,
-  Clipboard,
-  Clock3,
-  FileArchive,
-  FileCheck,
-  FileSpreadsheet,
-  FileText,
-  GitFork,
-  Mail,
-  PackageCheck,
-  SearchCheck,
-  Send,
-  TriangleAlert,
-  Wrench,
-} from "@lucide/astro";
+import { BookOpen, Clipboard, GitFork, Mail, Wrench } from "@lucide/astro";
 import SiteFooter from "@/components/SiteFooter.astro";
 import SiteNav from "@/components/SiteNav.astro";
 import { site } from "@/data/site";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-const outputs = [
-  { label: "Bid Scope Summary", icon: FileText },
-  { label: "scope-pages.pdf", icon: FileCheck },
-  { label: "spec-pages.pdf", icon: BookOpen },
-  { label: "Takeoff Worksheet", icon: FileSpreadsheet },
-  { label: "Proposal Letter", icon: Clipboard },
-  { label: "ALERTS.md", icon: TriangleAlert },
-  { label: "Bid Tracker", icon: Clock3 },
-  { label: "supplier sendoff zip", icon: FileArchive },
+// Pixel icon glyphs (8x8 grid, fill inherits currentColor from the parent svg)
+const px = {
+  board:
+    '<rect x="0" y="0" width="5" height="2"/><rect x="6" y="0" width="2" height="2"/><rect x="0" y="3" width="4" height="2"/><rect x="6" y="3" width="2" height="2"/><rect x="0" y="6" width="6" height="2"/>',
+  docs: '<rect x="1" y="0" width="4" height="8"/><rect x="5" y="2" width="2" height="6"/>',
+  link: '<rect x="0" y="3" width="3" height="3"/><rect x="5" y="2" width="3" height="3"/><rect x="3" y="3" width="2" height="2"/>',
+  alert:
+    '<rect x="3" y="0" width="2" height="5"/><rect x="3" y="6" width="2" height="2"/>',
+  note: '<rect x="5" y="0" width="2" height="2"/><rect x="4" y="2" width="2" height="2"/><rect x="3" y="4" width="2" height="2"/><rect x="0" y="6" width="3" height="2"/>',
+  export:
+    '<rect x="3" y="0" width="2" height="4"/><rect x="1" y="2" width="2" height="2"/><rect x="5" y="2" width="2" height="2"/><rect x="0" y="6" width="8" height="2"/>',
+  tools:
+    '<rect x="0" y="3" width="8" height="5"/><rect x="3" y="1" width="2" height="2"/>',
+  ruler:
+    '<rect x="0" y="4" width="8" height="2"/><rect x="1" y="1" width="1" height="3"/><rect x="3" y="2" width="1" height="2"/><rect x="5" y="1" width="1" height="3"/><rect x="7" y="2" width="1" height="2"/>',
+  table:
+    '<rect x="0" y="0" width="3" height="3"/><rect x="5" y="0" width="3" height="3"/><rect x="0" y="5" width="3" height="3"/><rect x="5" y="5" width="3" height="3"/>',
+  overlay:
+    '<rect x="0" y="0" width="5" height="5"/><rect x="3" y="3" width="5" height="5" opacity="0.55"/>',
+  pdf: '<rect x="0" y="0" width="5" height="8"/><rect x="5" y="3" width="3" height="2"/>',
+  sync: '<rect x="1" y="0" width="5" height="2"/><rect x="6" y="1" width="2" height="2"/><rect x="2" y="6" width="5" height="2"/><rect x="0" y="5" width="2" height="2"/>',
+};
+
+// Contractor Takeoff feature blocks (product band A)
+const takeoffFeatures = [
+  {
+    icon: px.board,
+    label: "BID BOARD",
+    text: "One shared board the whole team reads: status, due dates, owner, and the next action on every bid.",
+  },
+  {
+    icon: px.docs,
+    label: "DOC LIBRARY",
+    text: "Every bid gets its own document library: plans, specs, addenda, and bid forms in one place, versioned as they land.",
+  },
+  {
+    icon: px.link,
+    label: "SOURCE-BACKED TRIAGE",
+    text: "AI-assisted triage reads the set and proposes findings. Every finding links to a source page you can open and verify.",
+  },
+  {
+    icon: px.alert,
+    label: "SCOPE + DEADLINE ALERTS",
+    text: "Addendum detected, specs missing, due date closing in. The board tells you before the GC does.",
+  },
+  {
+    icon: px.note,
+    label: "NOTES + DECISIONS",
+    text: "Team notes and dated decisions live on the bid, so 'why did we exclude that' has an answer in October.",
+  },
+  {
+    icon: px.export,
+    label: "BID PACKET EXPORT",
+    text: "Deterministic export: same inputs, same packet, every time. Ready for suppliers and the GC.",
+  },
+];
+
+// Plan Markup feature blocks (product band B)
+const markupFeatures = [
+  {
+    icon: px.tools,
+    label: "FULL MARKUP TOOLSET",
+    text: "Clouds, callouts, stamps, highlights: the working set, with reusable tool chest presets for your trade.",
+  },
+  {
+    icon: px.ruler,
+    label: "MEASURE EVERYTHING",
+    text: "Length, area, volume, and count, with per-page scale and scale regions for split-scale sheets.",
+  },
+  {
+    icon: px.table,
+    label: "TAKEOFF TOTALS TO CSV",
+    text: "Running totals by tool and by page, exported straight to CSV for your pricing workbook.",
+  },
+  {
+    icon: px.overlay,
+    label: "OVERLAY + TRANSFER",
+    text: "Overlay the new sheet on the old one when addenda land, then transfer your markups across.",
+  },
+  {
+    icon: px.pdf,
+    label: "REVU-COMPATIBLE EXPORT",
+    text: "Export flattened PDFs, or editable PDFs that round-trip with teams still on Bluebeam Revu.",
+  },
+  {
+    icon: px.sync,
+    label: "LOCAL SIDECAR FILES",
+    text: "Markups save as local sidecar files next to the PDF and sync through Dropbox or iCloud.",
+  },
 ];
 
 const faqs = [
   {
-    question: "Do I need to use a terminal?",
+    question: "Is the app live?",
     answer:
-      "No. Either I set it up for you, or you drive it through Claude, Codex, or Cursor in plain English. The terminal is there for people who want it.",
+      "No. Contractor Takeoff is in pilot, not public yet. Join the pilot list and we set you up on a call.",
   },
   {
-    question: "Where do my bid documents go?",
+    question: "Where do my documents go?",
     answer:
-      "They stay in a folder on your machine. The core is MIT-licensed, so your IT team can read every line.",
-  },
-  {
-    question: "Does it do takeoff measurement?",
-    answer:
-      "It builds the source-backed workbook and page packets. You or your Bluebeam workflow still measure. It refuses to guess quantities.",
+      "The free engine works in a folder on your machine: nothing uploads. The hosted app keeps bid documents in private storage scoped to your workspace. The Security page spells out the details.",
   },
   {
     question: "Will it price the job?",
     answer:
-      "No. Pricing is your judgment. This clears the PDF shuffle before pricing starts.",
+      "No. Pricing is your judgment. The suite clears the document shuffle so pricing starts sooner.",
   },
   {
-    question: "What trades?",
+    question: "Does it do takeoff measurement?",
     answer:
-      "Starter profiles cover CSI Divisions 03 through 33. Deeper Pro packs start with fences and gates, then expand by founding-member demand.",
+      "Plan Markup measures when you draw the measurement: length, area, volume, count, with per-page scale. Nothing guesses quantities for you.",
   },
   {
-    question: "Scanned plan sets?",
+    question: "Does Plan Markup replace Bluebeam?",
     answer:
-      "Vector PDFs work today. Pro adds OCR for scanned sets at v0.3.0.",
+      "It replaces the 10 percent of Revu estimators use daily: markup, measure, overlay, export. Exports are flattened or Revu-compatible editable PDFs, so you can still trade files with Revu shops.",
   },
   {
-    question: "What happens if Keith disappears?",
+    question: "What about Windows?",
     answer:
-      "The core is open source and your bids are local files. You keep your data, workflows, and generated packages.",
+      "Plan Markup runs on Mac and in the browser today. Windows users can run the browser app.",
   },
   {
-    question: "Refunds?",
+    question: "What if Keith disappears?",
     answer:
-      "Founding Pro and DFY setup follow a 14-day refund policy, no questions.",
+      "The engine is MIT-licensed and your bids are local files. You keep your data, your workflows, and every packet you generated.",
+  },
+  {
+    question: "What does the free engine do without the app?",
+    answer:
+      "The full document pipeline: triage a bid package, isolate scope pages, pull specs, build the takeoff workbook, flag scope drift, and zip the supplier sendoff. CLI and MCP server, on your machine.",
   },
 ];
 ---
@@ -78,152 +143,443 @@ const faqs = [
 <BaseLayout>
   <SiteNav />
   <main id="main-content">
+    <!-- 1. Hero: copy + dual app mockups -->
     <section class="hero" aria-labelledby="hero-title">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow">FOR COMMERCIAL SUBCONTRACTORS</p>
-          <h1 id="hero-title">From bid invite to supplier-ready package. Before lunch.</h1>
-          <p class="hero-sub lead">
-            contractor-bid turns a messy bid package into a source-backed workspace:
-            your scope pages isolated, specs pulled, takeoff workbook built, traps
-            flagged, supplier sendoff zipped. On your machine. Nothing uploaded anywhere.
+          <p class="eyebrow reveal">FOR SPECIALTY SUBCONTRACTORS</p>
+          <h1 id="hero-title" class="reveal" style="--reveal-delay: 80ms">
+            Run every bid from one command center.
+          </h1>
+          <p class="hero-sub lead reveal" style="--reveal-delay: 160ms">
+            Contractor Takeoff is the bid command center, now in pilot. Plan
+            Markup measures and marks up the sheets. Underneath both: a free
+            open-source engine that runs where your plans already live, on
+            your machine.
           </p>
-          <div class="hero-actions">
-            <a class="button orange" href="/dfy" data-plausible-event-name="dfy_click">
-              <Wrench size={20} aria-hidden="true" />
-              Get it set up for you $750
+          <div class="hero-actions reveal" style="--reveal-delay: 240ms">
+            <a
+              class="button steel"
+              href={site.pilotHref}
+              data-plausible-event-name="pilot_click"
+            >
+              <Mail size={18} aria-hidden="true" />
+              Join the pilot
             </a>
+            <a class="button ghost" href={site.productRepo}>
+              <GitFork size={18} aria-hidden="true" />
+              Star the free engine
+            </a>
+          </div>
+          <p class="note reveal" style="--reveal-delay: 320ms">
+            App in pilot. Engine free and MIT-licensed today.
+          </p>
+        </div>
+
+        <div class="hero-media reveal" style="--reveal-delay: 200ms">
+          <div class="mockup-stack">
+            <!-- Dark card: Plan Markup canvas -->
+            <div
+              class="mockup markup-card"
+              role="img"
+              aria-label="Mockup of Plan Markup: a plan sheet with a measurement line drawing itself to a length of 128 feet 6 inches and a running takeoff total"
+            >
+              <div class="markup-titlebar" aria-hidden="true">
+                <span>Plan Markup</span>
+                <span class="mono">A-201.pdf</span>
+              </div>
+              <div class="markup-body" aria-hidden="true">
+                <div class="markup-toolbar">
+                  <span class="tool">
+                    <svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor">
+                      <rect x="1" y="0" width="2" height="6"></rect>
+                      <rect x="3" y="2" width="2" height="2"></rect>
+                      <rect x="5" y="4" width="2" height="2"></rect>
+                    </svg>
+                  </span>
+                  <span class="tool active">
+                    <svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor">
+                      <rect x="0" y="6" width="2" height="2"></rect>
+                      <rect x="2" y="4" width="2" height="2"></rect>
+                      <rect x="4" y="2" width="2" height="2"></rect>
+                      <rect x="6" y="0" width="2" height="2"></rect>
+                    </svg>
+                  </span>
+                  <span class="tool">
+                    <svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor">
+                      <rect x="0" y="0" width="8" height="2"></rect>
+                      <rect x="0" y="2" width="2" height="6"></rect>
+                      <rect x="6" y="2" width="2" height="6"></rect>
+                      <rect x="2" y="6" width="4" height="2"></rect>
+                    </svg>
+                  </span>
+                  <span class="tool">
+                    <svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor">
+                      <rect x="3" y="1" width="2" height="6"></rect>
+                      <rect x="1" y="3" width="6" height="2"></rect>
+                    </svg>
+                  </span>
+                  <span class="tool">
+                    <svg viewBox="0 0 8 8" shape-rendering="crispEdges" fill="currentColor">
+                      <rect x="0" y="1" width="8" height="2"></rect>
+                      <rect x="2" y="5" width="4" height="2"></rect>
+                    </svg>
+                  </span>
+                </div>
+                <div class="markup-sheet">
+                  <svg viewBox="0 0 260 180" fill="none">
+                    <!-- Faint plan linework -->
+                    <rect
+                      x="16"
+                      y="14"
+                      width="228"
+                      height="150"
+                      stroke="#CBD1D8"
+                      stroke-width="1.5"></rect>
+                    <path
+                      d="M96 14 V88 M96 88 H16 M160 164 V110 M160 110 H244"
+                      stroke="#DCE0E5"></path>
+                    <path d="M96 44 a16 16 0 0 1 16 16" stroke="#E2E5E9"></path>
+                    <path
+                      d="M180 30 h40 M180 38 h40 M180 46 h24"
+                      stroke="#E2E5E9"></path>
+                    <circle cx="226" cy="140" r="9" stroke="#DCE0E5"></circle>
+                    <!-- Measurement: draws itself in a loop -->
+                    <polyline
+                      class="measure-line"
+                      points="36,150 36,60 148,60 148,104 222,104"
+                      stroke="#2F6FB2"
+                      stroke-width="2.5"
+                      pathLength="100"></polyline>
+                    <g class="measure-nodes" fill="#2F6FB2">
+                      <rect x="33" y="147" width="6" height="6"></rect>
+                      <rect x="33" y="57" width="6" height="6"></rect>
+                      <rect x="145" y="57" width="6" height="6"></rect>
+                      <rect x="145" y="101" width="6" height="6"></rect>
+                      <rect x="219" y="101" width="6" height="6"></rect>
+                    </g>
+                  </svg>
+                  <span class="measure-label mono">128'-6"</span>
+                  <span class="markup-total mono">TOTAL 412 LF</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Light card: Contractor Takeoff bid board -->
+            <div
+              class="mockup board-card"
+              role="img"
+              aria-label="Mockup of the Contractor Takeoff bid board: four bids with due dates, status, and owner, and triage alerts appearing one at a time with source page tags"
+            >
+              <div class="board-head" aria-hidden="true">
+                <span>Contractor Takeoff</span>
+                <span class="mono">BID BOARD</span>
+              </div>
+              <div class="board-rows" aria-hidden="true">
+                <div class="board-cols mono">
+                  <span>PROJECT</span><span>GC</span><span>DUE</span><span
+                    >STATUS</span
+                  ><span></span>
+                </div>
+                <div class="board-row">
+                  <span class="row-project">Riverside Fence Pkg</span>
+                  <span class="row-gc">Turner</span>
+                  <span class="pill due danger mono">Jul 18</span>
+                  <span class="pill status warn">Triage</span>
+                  <span class="owner">KB</span>
+                </div>
+                <div class="board-row">
+                  <span class="row-project">Lakeview ES Ph 2</span>
+                  <span class="row-gc">Ajax</span>
+                  <span class="pill due mono">Jul 22</span>
+                  <span class="pill status info">Measure</span>
+                  <span class="owner">KB</span>
+                </div>
+                <div class="board-row">
+                  <span class="row-project">SR-44 Guardrail</span>
+                  <span class="row-gc">FDOT</span>
+                  <span class="pill due mono">Jul 25</span>
+                  <span class="pill status neutral">Draft</span>
+                  <span class="owner">JM</span>
+                </div>
+                <div class="board-row">
+                  <span class="row-project">Pinewood Apts</span>
+                  <span class="row-gc">Core</span>
+                  <span class="pill due mono">Aug 01</span>
+                  <span class="pill status ok">Sent</span>
+                  <span class="owner">KB</span>
+                </div>
+              </div>
+              <div class="board-alerts" aria-hidden="true">
+                <span class="alerts-tag mono">TRIAGE</span>
+                <div class="alert-slot">
+                  <div class="alert-row" style="--alert-delay: 0s">
+                    <span class="alert-dot safety-dot"></span>
+                    <span class="alert-text">Addendum 2 detected</span>
+                    <code>A-201</code>
+                  </div>
+                  <div class="alert-row" style="--alert-delay: 3s">
+                    <span class="alert-dot danger-dot"></span>
+                    <span class="alert-text">Specs missing</span>
+                    <code>Div 32</code>
+                  </div>
+                  <div class="alert-row" style="--alert-delay: 6s">
+                    <span class="alert-dot warn-dot"></span>
+                    <span class="alert-text">Due in 3 days</span>
+                    <code>Riverside Fence Pkg</code>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Problem strip -->
+    <section class="proof-row" aria-label="Common bid setup problems">
+      <div class="proof-cell">
+        <p>
+          400 pages and three addenda land, and the afternoon is gone before
+          you can price a foot of work.
+        </p>
+      </div>
+      <div class="proof-cell">
+        <p>
+          One missed addendum or one word of scope drift eats the whole
+          margin.
+        </p>
+      </div>
+      <div class="proof-cell">
+        <p>
+          Cloud AI tools want the GC's plan room uploaded. Your NDA disagrees.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. Product band A: Contractor Takeoff -->
+    <section id="products" class="section" aria-labelledby="products-title">
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">SEC 01 / BID COMMAND CENTER</p>
+          <h2 id="products-title">Contractor Takeoff</h2>
+          <p class="lead">
+            The whole bid on one board: documents, findings, deadlines,
+            decisions, and the packet that goes out the door. Built for teams
+            that bid every week.
+          </p>
+          <p class="status-note mono">In pilot now. Not public yet.</p>
+        </div>
+        <div class="feature-grid stagger">
+          {
+            takeoffFeatures.map(feature => (
+              <div class="feature reveal">
+                <span class="chip">
+                  <svg
+                    viewBox="0 0 8 8"
+                    shape-rendering="crispEdges"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    set:html={feature.icon}
+                  />
+                  {feature.label}
+                </span>
+                <p>{feature.text}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <div class="dither-edge" aria-hidden="true"></div>
+
+    <!-- 4. Product band B: Plan Markup (dark) -->
+    <section
+      id="plan-markup"
+      class="section dark"
+      aria-labelledby="markup-title"
+    >
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">SEC 02 / MEASURE AND MARKUP</p>
+          <h2 id="markup-title">Plan Markup</h2>
+          <p class="lead">
+            The daily Bluebeam workload: measure, mark up, overlay, export.
+            You draw the measurement, it keeps the totals honest.
+          </p>
+          <p class="status-note mono">
+            Runs on Mac and in the browser. Embeds inside Contractor Takeoff.
+          </p>
+        </div>
+        <div class="feature-grid stagger">
+          {
+            markupFeatures.map(feature => (
+              <div class="feature reveal">
+                <span class="chip">
+                  <svg
+                    viewBox="0 0 8 8"
+                    shape-rendering="crispEdges"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    set:html={feature.icon}
+                  />
+                  {feature.label}
+                </span>
+                <p>{feature.text}</p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <div class="dither-edge flip" aria-hidden="true"></div>
+
+    <!-- 5. Better together: the embed story -->
+    <section
+      id="better-together"
+      class="section"
+      aria-labelledby="together-title"
+    >
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">ONE SUITE</p>
+          <h2 id="together-title">Markups that live with the bid.</h2>
+          <p class="lead">
+            Mark up a sheet on a bid and the markup stays with that bid.
+            Measurements, alerts, notes, and the outgoing packet share one
+            workspace, from invite to sendoff.
+          </p>
+        </div>
+        <div
+          class="flow-diagram reveal"
+          style="--reveal-delay: 120ms"
+          role="img"
+          aria-label="Diagram: Plan Markup writes a sidecar JSON file, and Contractor Takeoff reads it into the bid workspace"
+        >
+          <div class="flow-box">
+            <strong>Plan Markup</strong>
+            <span>measure + mark up</span>
+          </div>
+          <svg
+            class="flow-arrow"
+            viewBox="0 0 12 8"
+            shape-rendering="crispEdges"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <rect x="0" y="3" width="7" height="2"></rect>
+            <rect x="7" y="1" width="2" height="2"></rect>
+            <rect x="7" y="5" width="2" height="2"></rect>
+            <rect x="9" y="3" width="2" height="2"></rect>
+          </svg>
+          <div class="flow-box mono-box">
+            <strong class="mono">sidecar.json</strong>
+            <span>quantities + markups</span>
+          </div>
+          <svg
+            class="flow-arrow"
+            viewBox="0 0 12 8"
+            shape-rendering="crispEdges"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <rect x="0" y="3" width="7" height="2"></rect>
+            <rect x="7" y="1" width="2" height="2"></rect>
+            <rect x="7" y="5" width="2" height="2"></rect>
+            <rect x="9" y="3" width="2" height="2"></rect>
+          </svg>
+          <div class="flow-box">
+            <strong>Contractor Takeoff</strong>
+            <span>bid workspace</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. How it works -->
+    <section
+      id="how-it-works"
+      class="section tight"
+      aria-labelledby="how-title"
+    >
+      <div class="container">
+        <p class="eyebrow reveal">HOW IT WORKS</p>
+        <h2 id="how-title" class="reveal" style="--reveal-delay: 80ms">
+          Three moves per bid.
+        </h2>
+        <div class="how-grid stagger">
+          <article class="how-step reveal">
+            <span class="step-numeral" aria-hidden="true">1</span>
+            <h3>Drop the docs.</h3>
+            <p>
+              Plans, specs, addenda, and bid forms go into the bid's document
+              library. Originals stay untouched.
+            </p>
+          </article>
+          <article class="how-step reveal">
+            <span class="step-numeral" aria-hidden="true">2</span>
+            <h3>Review, don't hunt.</h3>
+            <p>
+              Triage proposes scope pages, spec sections, and alerts, each
+              linked to a source page. You approve what's real.
+            </p>
+          </article>
+          <article class="how-step reveal">
+            <span class="step-numeral" aria-hidden="true">3</span>
+            <h3>Send it off.</h3>
+            <p>
+              Export the deterministic bid packet: scope pages, workbook,
+              alerts, and a supplier-ready zip you can audit.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <div class="dither-edge" aria-hidden="true"></div>
+
+    <!-- 7. Trust band: source-backed AI + free engine -->
+    <section
+      id="open-source"
+      class="section dark"
+      aria-labelledby="trust-title"
+    >
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">SOURCE-BACKED AI</p>
+          <h2 id="trust-title">AI that can't invent your numbers.</h2>
+          <p class="lead">
+            The model reads, classifies, summarizes, and drafts. Deterministic
+            code writes every quantity from JSON you approved, tied to a
+            source page. If a number is in the workbook, you can prove where
+            it came from.
+          </p>
+        </div>
+        <div class="engine-panel reveal" style="--reveal-delay: 120ms">
+          <h3>The free engine underneath</h3>
+          <p>
+            contractor-bid is MIT-licensed and runs on your machine. The CLI
+            and MCP server do the document work: triage, scope packets,
+            workbook, alerts, supplier sendoff. Your IT team can read every
+            line.
+          </p>
+          <div class="engine-actions">
             <button
               class="copy-command"
               type="button"
               data-copy={site.installCommand}
               data-label="Copy install"
             >
-              <Clipboard size={19} aria-hidden="true" />
+              <Clipboard size={18} aria-hidden="true" />
               <span data-copy-text>Copy install</span>
               <code>{site.installCommand}</code>
             </button>
-            <a class="button ghost" href={site.productRepo}>
-              <GitFork size={20} aria-hidden="true" />
-              Star the repo
+            <a class="button ghost" href={site.docsUrl}>
+              <BookOpen size={18} aria-hidden="true" />
+              Read the docs
             </a>
-          </div>
-          <p class="note">Free core requires Python 3.11+ and Poppler for best PDF extraction.</p>
-        </div>
-        <div class="hero-media" aria-label="contractor-bid terminal demo preview">
-          <div class="media-frame">
-            <img
-              src="/images/terminal-demo.webp"
-              alt="Terminal preview showing contractor-bid running triage, workbook, alerts, and supplier sendoff commands"
-              width="1440"
-              height="900"
-              loading="eager"
-            />
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="proof-row" aria-label="Common bid setup problems">
-      <div class="proof-cell">
-        <p>400 pages, 3 addenda, one afternoon gone before you price a foot of work.</p>
-      </div>
-      <div class="proof-cell">
-        <p>One missed addendum or one word of scope drift eats the whole margin.</p>
-      </div>
-      <div class="proof-cell">
-        <p>Cloud AI tools want the GC's plan room uploaded. Your NDA disagrees.</p>
-      </div>
-    </section>
-
-    <section id="how-it-works" class="section">
-      <div class="container split">
-        <div>
-          <p class="eyebrow">HOW IT WORKS</p>
-          <h2>Review, don't hunt.</h2>
-          <p class="lead">
-            The pipeline turns bid documents into a working folder an estimator can
-            inspect, correct, and send out. Every output has a source trail.
-          </p>
-          <div class="media-frame">
-            <img
-              src="/images/workflow-capture.webp"
-              alt="Generated screenshot of contractor-bid workflow outputs"
-              width="1000"
-              height="650"
-              loading="lazy"
-            />
-          </div>
-        </div>
-        <div class="step-list">
-          <article class="step">
-            <span class="step-number">1</span>
-            <div>
-              <h3>Drop the docs.</h3>
-              <p>
-                Plans, specs, addenda, and bid forms go in `bid-docs/`. The original
-                files stay untouched.
-              </p>
-            </div>
-          </article>
-          <article class="step">
-            <span class="step-number">2</span>
-            <div>
-              <h3>Approve the scope.</h3>
-              <p>
-                Triage finds scope pages and proposes them. You approve the sources
-                before packets, summary, and workbook get built.
-              </p>
-            </div>
-          </article>
-          <article class="step">
-            <span class="step-number">3</span>
-            <div>
-              <h3>Send it off.</h3>
-              <p>
-                Scope-drift alerts, proposal language, and a supplier-ready zip land in
-                a folder you can open and audit.
-              </p>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      <div class="container artifact-grid" aria-label="Generated outputs">
-        {
-          outputs.map(item => {
-            const Icon = item.icon;
-            return (
-              <div class="artifact">
-                <Icon size={24} aria-hidden="true" />
-                <strong>{item.label}</strong>
-              </div>
-            );
-          })
-        }
-      </div>
-    </section>
-
-    <section class="trust-band section">
-      <div class="container split">
-        <div>
-          <p class="eyebrow">SOURCE-BACKED AI</p>
-          <h2>AI that can't invent your numbers.</h2>
-          <p class="lead">
-            The model reads, classifies, summarizes, and drafts. Deterministic code
-            writes every quantity from JSON you approved, tied to a source page. If a
-            number is in the workbook, you can prove where it came from.
-          </p>
-        </div>
-        <div>
-          <div class="media-frame">
-            <img
-              src="/images/source-workspace.webp"
-              alt="Side-by-side bid-docs and generated working folder preview"
-              width="1000"
-              height="650"
-              loading="lazy"
-            />
           </div>
           <div class="path-grid" aria-label="Local workspace folders">
             <div class="path-box">
@@ -239,35 +595,61 @@ const faqs = [
       </div>
     </section>
 
-    <section class="section">
+    <div class="dither-edge flip" aria-hidden="true"></div>
+
+    <!-- 8. Built by an estimator -->
+    <section class="section tight" aria-labelledby="estimator-title">
       <div class="container split">
-        <div>
+        <div class="reveal">
           <p class="eyebrow">BUILT BY AN ESTIMATOR</p>
-          <h2>Not a VC takeoff fantasy.</h2>
+          <h2 id="estimator-title">Not a VC takeoff fantasy.</h2>
         </div>
-        <div class="quote-block">
+        <div class="quote-block reveal" style="--reveal-delay: 120ms">
           <p class="lead">
-            Built by Keith Bloemendaal. 37 years in construction. Master plumber,
-            journeyman electrician, founded and sold a homebuilding company, currently
-            estimating commercial fence in Florida. This tool exists because I bid work
-            every week and got tired of the paper shuffle.
+            I'm Keith Bloemendaal: 37 years in construction, master plumber,
+            journeyman electrician, founded and sold a homebuilding company. I
+            estimate commercial fence in Florida every week. I built this
+            suite because I bid work weekly and got tired of the paper
+            shuffle.
           </p>
         </div>
       </div>
     </section>
 
-    <section id="pricing" class="section tight" aria-labelledby="pricing-title">
+    <!-- 9. Pilot section -->
+    <section id="pilot" class="section tight" aria-labelledby="pilot-title">
       <div class="container">
-        <p class="eyebrow">PRICING</p>
-        <h2 id="pricing-title">Free core. Paid trade depth.</h2>
-        <div class="cards">
-          <article class="card">
-            <h3>Free</h3>
+        <p class="eyebrow reveal">GET IN</p>
+        <h2 id="pilot-title" class="reveal" style="--reveal-delay: 80ms">
+          Pilot the app. The engine is free either way.
+        </h2>
+        <div class="cards stagger">
+          <article class="card featured reveal">
+            <h3>Pilot program</h3>
+            <div class="price">In pilot</div>
+            <ul>
+              <li>First access to Contractor Takeoff</li>
+              <li>Direct line to Keith while you run real bids</li>
+              <li>Shape the roadmap with what you actually need</li>
+              <li>Terms discussed on a call</li>
+            </ul>
+            <a
+              class="button steel"
+              href={site.pilotHref}
+              data-plausible-event-name="pilot_click"
+            >
+              <Mail size={18} aria-hidden="true" />
+              Ask about the pilot
+            </a>
+          </article>
+
+          <article class="card reveal">
+            <h3>Free engine</h3>
             <div class="price">$0</div>
             <ul>
-              <li>Open-source CLI, MCP server, and agent plugins</li>
-              <li>22 CSI starter profiles and bid tracker</li>
-              <li>Community support through GitHub</li>
+              <li>Open-source CLI and MCP server, MIT-licensed</li>
+              <li>Runs locally: nothing uploads anywhere</li>
+              <li>Free forever, community support on GitHub</li>
             </ul>
             <button
               class="button secondary"
@@ -280,54 +662,26 @@ const faqs = [
             </button>
           </article>
 
-          <article class="card featured">
-            <h3>Founding Pro</h3>
-            <div class="price">$290/yr</div>
+          <article class="card reveal">
+            <h3>Done-for-you setup</h3>
+            <div class="price">$750</div>
             <ul>
-              <li>Locked for life for the first 20 customers</li>
-              <li>Deep trade profile packs and template library</li>
-              <li>Addenda diff, OCR, email drafts, and calendar at v0.3.0</li>
-              <li>Priority email support and roadmap vote</li>
+              <li>Keith installs the free engine on your machine</li>
+              <li>Builds your trade profile and templates</li>
+              <li>Runs your next live bid with you</li>
+              <li>Includes first access to the app pilot</li>
             </ul>
-            <a class="button orange" href="/dfy#founding" data-plausible-event-name="founding_click">
-              <PackageCheck size={18} aria-hidden="true" />
-              Claim a founding slot
+            <a class="button secondary" href="/dfy">
+              <Wrench size={18} aria-hidden="true" />
+              See the setup
             </a>
           </article>
-
-          <article class="card">
-            <h3>Shop</h3>
-            <div class="price">$149/mo</div>
-            <ul>
-              <li>5 seats and 10 activations</li>
-              <li>Shared profiles and lesson sync pattern</li>
-              <li>60-minute onboarding screen-share</li>
-            </ul>
-            <a class="button secondary" href={`mailto:${site.supportEmail}?subject=Shop%20plan`}>
-              <Mail size={18} aria-hidden="true" />
-              Email for Shop
-            </a>
-          </article>
-        </div>
-
-        <div class="service-banner">
-          <div>
-            <h3>Done-for-you setup: $750 flat</h3>
-            <p>
-              First five setups, then $1,500. I install everything, build your trade
-              profile, load templates, and run your next live bid with you. Includes a
-              year of Pro.
-            </p>
-          </div>
-          <a class="button orange" href="/dfy">
-            <Wrench size={18} aria-hidden="true" />
-            Get the setup
-          </a>
         </div>
       </div>
     </section>
 
-    <section class="section tight" aria-labelledby="faq-title">
+    <!-- 10. FAQ -->
+    <section id="faq" class="section tight" aria-labelledby="faq-title">
       <div class="container">
         <p class="eyebrow">FAQ</p>
         <h2 id="faq-title">Plain answers.</h2>
@@ -344,24 +698,25 @@ const faqs = [
       </div>
     </section>
 
-    <section class="section tight">
+    <!-- 11. Final CTA: the one safety-orange button on the page -->
+    <section class="section tight" aria-labelledby="cta-title">
       <div class="container split">
-        <div>
+        <div class="reveal">
           <p class="eyebrow">NEXT STEP</p>
-          <h2>Run the free core or get the pipeline installed.</h2>
+          <h2 id="cta-title">Bring your next bid into the pilot.</h2>
+          <p class="lead">
+            A short call, your real bid documents, and plain answers about
+            what the suite does and doesn't do.
+          </p>
         </div>
-        <div class="section-actions">
-          <a class="button orange" href="/dfy">
-            <Wrench size={18} aria-hidden="true" />
-            Get setup
-          </a>
-          <a class="button secondary" href={site.docsUrl}>
-            <SearchCheck size={18} aria-hidden="true" />
-            Read the docs
-          </a>
-          <a class="button ghost" href={`mailto:${site.supportEmail}`}>
-            <Send size={18} aria-hidden="true" />
-            Ask a question
+        <div class="section-actions cta-actions reveal" style="--reveal-delay: 120ms">
+          <a
+            class="button safety"
+            href={site.pilotHref}
+            data-plausible-event-name="pilot_click"
+          >
+            <Mail size={18} aria-hidden="true" />
+            Join the pilot
           </a>
         </div>
       </div>
@@ -369,3 +724,613 @@ const faqs = [
   </main>
   <SiteFooter />
 </BaseLayout>
+
+<style>
+  /* ---------------------------------------------------------------- */
+  /* Hero mockups: two overlapping hand-coded app cards                */
+  /* ---------------------------------------------------------------- */
+  .mockup-stack {
+    position: relative;
+    min-height: 470px;
+  }
+
+  .mockup {
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  /* Dark card: Plan Markup, behind and offset right */
+  .markup-card {
+    position: absolute;
+    top: 0;
+    right: -6px;
+    z-index: 1;
+    width: min(330px, 68%);
+    background: var(--slate);
+    box-shadow: 8px 8px 0 rgba(28, 39, 51, 0.35);
+    transform: rotate(-1.5deg);
+  }
+
+  /* Light card: Contractor Takeoff bid board, in front */
+  .board-card {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    width: min(400px, 84%);
+    background: #ffffff;
+    box-shadow: 8px 8px 0 rgba(28, 39, 51, 0.18);
+    transform: rotate(1deg);
+  }
+
+  /* -- Plan Markup card internals -- */
+  .markup-titlebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--slate-panel);
+    border-bottom: 1px solid var(--line-dark);
+    color: var(--slate-text);
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.45rem 0.7rem;
+  }
+
+  .markup-titlebar .mono {
+    color: var(--slate-dim);
+    font-size: 0.62rem;
+    font-weight: 400;
+  }
+
+  .markup-body {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem;
+    padding: 0.55rem;
+  }
+
+  .markup-toolbar {
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+  }
+
+  .tool {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border: 1px solid var(--line-dark);
+    border-radius: 4px;
+    color: var(--slate-dim);
+    background: var(--slate-panel);
+  }
+
+  .tool svg {
+    width: 10px;
+    height: 10px;
+    image-rendering: pixelated;
+  }
+
+  .tool.active {
+    color: #ffffff;
+    background: var(--blueprint);
+    border-color: var(--blueprint);
+  }
+
+  .markup-sheet {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--line-dark);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .markup-sheet svg {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Measurement polyline draws itself, holds, resets */
+  .measure-line {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: draw-measure 7s ease-in-out infinite;
+  }
+
+  @keyframes draw-measure {
+    0%,
+    8% {
+      stroke-dashoffset: 100;
+      opacity: 1;
+    }
+    55% {
+      stroke-dashoffset: 0;
+    }
+    88% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+    94%,
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 0;
+    }
+  }
+
+  .measure-nodes {
+    opacity: 0;
+    animation: measure-nodes 7s ease infinite;
+  }
+
+  @keyframes measure-nodes {
+    0%,
+    6% {
+      opacity: 0;
+    }
+    12% {
+      opacity: 1;
+    }
+    88% {
+      opacity: 1;
+    }
+    94%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .measure-label {
+    position: absolute;
+    top: 44%;
+    left: 56%;
+    background: var(--blueprint);
+    color: #ffffff;
+    font-size: 0.66rem;
+    font-weight: 700;
+    padding: 0.05rem 0.4rem;
+    border-radius: 3px;
+    opacity: 0;
+    animation: label-pop 7s ease infinite;
+  }
+
+  @keyframes label-pop {
+    0%,
+    50% {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    58% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    88% {
+      opacity: 1;
+    }
+    94%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .markup-total {
+    position: absolute;
+    right: 6px;
+    bottom: 6px;
+    background: var(--ink);
+    color: var(--paper-raised);
+    font-size: 0.58rem;
+    letter-spacing: 0.04em;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+  }
+
+  /* -- Bid board card internals -- */
+  .board-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--steel);
+    color: #ffffff;
+    font-size: 0.74rem;
+    font-weight: 700;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .board-head .mono {
+    font-size: 0.58rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    opacity: 0.85;
+  }
+
+  .board-rows {
+    padding: 0.35rem 0.75rem 0.5rem;
+  }
+
+  .board-cols,
+  .board-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.62fr) auto auto 20px;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .board-cols {
+    color: var(--ink-soft);
+    font-size: 0.52rem;
+    letter-spacing: 0.09em;
+    padding: 0.3rem 0 0.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .board-row {
+    padding: 0.42rem 0;
+    border-bottom: 1px solid #eceae3;
+    font-size: 0.7rem;
+  }
+
+  .row-project {
+    overflow: hidden;
+    font-weight: 600;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .row-gc {
+    overflow: hidden;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    font-size: 0.58rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.24rem 0.45rem;
+    white-space: nowrap;
+  }
+
+  .pill.due {
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+
+  .pill.due.danger {
+    border-color: rgba(179, 38, 30, 0.4);
+    color: #b3261e;
+  }
+
+  .pill.status.warn {
+    background: rgba(154, 103, 0, 0.14);
+    color: #9a6700;
+  }
+
+  .pill.status.info {
+    background: rgba(31, 95, 139, 0.13);
+    color: var(--steel);
+  }
+
+  .pill.status.neutral {
+    background: rgba(90, 107, 125, 0.13);
+    color: var(--ink-soft);
+  }
+
+  .pill.status.ok {
+    background: rgba(46, 125, 79, 0.14);
+    color: var(--ok);
+  }
+
+  .owner {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--paper-raised);
+    font-size: 0.5rem;
+    font-weight: 700;
+  }
+
+  /* Alerts: three rows cycle one at a time in a fixed slot */
+  .board-alerts {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.55rem;
+    align-items: center;
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    padding: 0.5rem 0.75rem;
+  }
+
+  .alerts-tag {
+    color: var(--safety);
+    font-family: var(--font-pixel);
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+  }
+
+  .alert-slot {
+    position: relative;
+    height: 26px;
+  }
+
+  .alert-row {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    opacity: 0;
+    animation: alert-cycle 9s ease infinite;
+    animation-delay: var(--alert-delay, 0s);
+  }
+
+  .alert-text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .alert-row code {
+    flex: none;
+    background: rgba(28, 39, 51, 0.08);
+    border-radius: 3px;
+    color: var(--ink-soft);
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    padding: 0.1rem 0.32rem;
+  }
+
+  .alert-dot {
+    flex: none;
+    width: 7px;
+    height: 7px;
+    image-rendering: pixelated;
+  }
+
+  .safety-dot {
+    background: var(--safety);
+  }
+
+  .danger-dot {
+    background: #b3261e;
+  }
+
+  .warn-dot {
+    background: #9a6700;
+  }
+
+  @keyframes alert-cycle {
+    0% {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    4% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    29% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    33%,
+    100% {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Product bands: feature blocks                                     */
+  /* ---------------------------------------------------------------- */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.25rem;
+  }
+
+  .feature p {
+    margin: 0.55rem 0 0;
+    font-size: 0.94rem;
+    line-height: 1.55;
+  }
+
+  .status-note {
+    color: var(--safety);
+    font-size: 0.78rem;
+    letter-spacing: 0.03em;
+  }
+
+  .section.dark .status-note {
+    color: var(--blueprint);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Better together: flow diagram                                     */
+  /* ---------------------------------------------------------------- */
+  .flow-diagram {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    align-self: center;
+  }
+
+  .flow-box {
+    display: grid;
+    gap: 0.15rem;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--paper-raised);
+    box-shadow: var(--shadow-soft);
+    padding: 0.85rem 1rem;
+  }
+
+  .flow-box strong {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .flow-box strong.mono {
+    font-family: var(--font-mono);
+    text-transform: none;
+    font-size: 0.92rem;
+  }
+
+  .flow-box span {
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+  }
+
+  .flow-box.mono-box {
+    border-style: dashed;
+    border-color: var(--steel);
+    box-shadow: none;
+  }
+
+  .flow-arrow {
+    flex: none;
+    width: 30px;
+    height: 20px;
+    color: var(--safety);
+    image-rendering: pixelated;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* How it works: giant numerals                                      */
+  /* ---------------------------------------------------------------- */
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+    margin-top: 2.25rem;
+  }
+
+  .how-step {
+    border-top: 2px solid var(--ink);
+    padding-top: 1rem;
+  }
+
+  .how-step h3 {
+    margin-top: 0.5rem;
+  }
+
+  .how-step p {
+    margin-bottom: 0;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Trust band: engine panel                                          */
+  /* ---------------------------------------------------------------- */
+  .engine-panel h3 {
+    margin-bottom: 0.4rem;
+  }
+
+  .engine-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 1rem 0 1.25rem;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Final CTA                                                         */
+  /* ---------------------------------------------------------------- */
+  .cta-actions {
+    align-self: center;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Breakpoints                                                       */
+  /* ---------------------------------------------------------------- */
+  @media (max-width: 980px) {
+    .mockup-stack {
+      display: grid;
+      justify-items: center;
+      gap: 1.25rem;
+      min-height: 0;
+    }
+
+    .markup-card,
+    .board-card {
+      position: static;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .markup-card {
+      transform: rotate(-0.6deg);
+    }
+
+    .board-card {
+      transform: rotate(0.4deg);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .how-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .flow-diagram {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .flow-arrow {
+      transform: rotate(90deg);
+      align-self: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .board-cols,
+    .board-row {
+      grid-template-columns: minmax(0, 1.4fr) auto auto 20px;
+    }
+
+    .row-gc,
+    .board-cols span:nth-child(2) {
+      display: none;
+    }
+  }
+
+  /* Reduced motion: freeze the mockups in their finished state */
+  @media (prefers-reduced-motion: reduce) {
+    .measure-line {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+
+    .measure-nodes,
+    .measure-label {
+      animation: none;
+      opacity: 1;
+    }
+
+    .alert-row {
+      animation: none;
+      opacity: 0;
+    }
+
+    .alert-row:first-child {
+      opacity: 1;
+    }
+  }
+</style>

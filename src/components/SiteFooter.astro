@@ -6,15 +6,16 @@ import { site } from "@/data/site";
 <footer class="site-footer">
   <div class="container footer-grid">
     <div>
-      <p class="eyebrow">BID-AUTOMATION RELEASE NOTES</p>
-      <h2>One useful note when the tool ships.</h2>
+      <p class="eyebrow">PILOT NOTES</p>
+      <h2>One useful note when something ships.</h2>
       <p>
-        No spam. No popups. Release notes, field lessons, and public case-study
-        numbers when they exist.
+        No spam. No popups. Pilot updates, release notes, and field lessons
+        from real bids.
       </p>
       <div class="footer-links">
+        <a href={site.productRepo}>Free engine</a>
+        <a href={site.siteRepo}>Site source</a>
         <a href={site.docsUrl}>Docs</a>
-        <a href={site.productRepo}>GitHub</a>
         <a href="/security">Security</a>
         <a href="/compare">Compare</a>
         <a href={site.xUrl}>X</a>
@@ -38,22 +39,23 @@ import { site } from "@/data/site";
           placeholder="you@company.com"
           required
         />
-        <button class="button orange" type="submit">
+        <button class="button steel" type="submit">
           <Rss size={18} aria-hidden="true" />
           Subscribe
         </button>
       </form>
       <p>
-        Made in Florida by a working estimator. Questions:
+        Questions:
         <a href={`mailto:${site.supportEmail}`}>
           <Mail size={16} aria-hidden="true" /> {site.supportEmail}
         </a>
       </p>
       <p>
-        <a href={site.siteRepo}>
-          <GitFork size={16} aria-hidden="true" /> Site source
+        <a href={site.productRepo}>
+          <GitFork size={16} aria-hidden="true" /> Star the free engine
         </a>
       </p>
+      <p class="footer-tagline">Made in Florida by a working estimator.</p>
     </div>
   </div>
 </footer>
