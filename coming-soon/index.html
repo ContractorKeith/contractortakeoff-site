@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contractor Takeoff: coming soon</title>
+<meta name="description" content="Contractor Takeoff is the bid command center for specialty subcontractors. Coming soon. The free contractor-bid engine is available today." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='9' width='4' height='6' fill='%23c7500f'/%3E%3Crect x='6' y='5' width='4' height='10' fill='%231f5f8b'/%3E%3Crect x='11' y='1' width='4' height='14' fill='%231c2733'/%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600&family=Barlow+Condensed:wght@700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  /* matches the "Jobsite Blueprint" tokens in the main site */
+  :root {
+    --paper: #f2f1ec;
+    --paper-raised: #fbfaf6;
+    --ink: #1c2733;
+    --ink-soft: #5a6b7d;
+    --steel: #1f5f8b;
+    --safety: #c7500f;
+    --line: #d9d6cc;
+    --shadow-hard: 5px 5px 0 rgba(28, 39, 51, 0.9);
+    --font-body: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-display: "Barlow Condensed", "Barlow", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    background: var(--paper-raised);
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow-hard);
+    max-width: 640px;
+    width: 100%;
+    padding: 48px 40px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .mark { display: flex; align-items: flex-end; gap: 2px; height: 18px; }
+  .mark span { width: 5px; display: block; }
+  .mark span:nth-child(1) { height: 8px;  background: var(--safety); }
+  .mark span:nth-child(2) { height: 13px; background: var(--steel); }
+  .mark span:nth-child(3) { height: 18px; background: var(--ink); }
+  .brand strong {
+    font-family: var(--font-display);
+    font-size: 20px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .chip {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--paper-raised);
+    background: var(--safety);
+    padding: 4px 10px;
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(34px, 6vw, 52px);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    margin-bottom: 18px;
+  }
+  p.sub {
+    color: var(--ink-soft);
+    font-size: 17px;
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+  p.sub b { color: var(--ink); }
+  .engine {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--line);
+    margin-top: 26px;
+    padding-top: 18px;
+    line-height: 1.7;
+  }
+  .engine code {
+    display: inline-block;
+    background: var(--ink);
+    color: #d8dce2;
+    padding: 3px 8px;
+    font-size: 12px;
+  }
+  .engine a { color: var(--steel); }
+  .cta {
+    display: inline-block;
+    margin-top: 26px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    color: var(--paper-raised);
+    background: var(--steel);
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 rgba(28, 39, 51, 0.9);
+    padding: 12px 22px;
+  }
+  .cta:hover { background: var(--safety); }
+  footer {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    padding: 18px;
+  }
+  footer a { color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<main>
+  <div class="card">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><span></span><span></span><span></span></div>
+      <strong>Contractor Takeoff</strong>
+    </div>
+    <span class="chip">Coming soon</span>
+    <h1>Run every bid from one command center.</h1>
+    <p class="sub">
+      A bid command center for specialty subcontractor teams, with plan markup and
+      measurement built in. Local-first: your plans stay on your machines.
+    </p>
+    <p class="sub">
+      Built by a working estimator with 37 years in construction. Opening soon to a
+      small group of pilot shops.
+    </p>
+    <div class="engine">
+      The free, MIT-licensed engine underneath it is
+      <a href="https://github.com/ContractorKeith/contractor-bid">available today</a>:
+      <code>pipx install "contractor-bid[mcp]"</code>
+    </div>
+    <a class="cta" href="mailto:support@contractortakeoff.ai?subject=Pilot%20program">Ask about the pilot</a>
+  </div>
+</main>
+<footer>
+  <a href="https://x.com/ContractorKeith">@ContractorKeith</a> ·
+  <a href="https://contractorkeith.com">contractorkeith.com</a>
+</footer>
+</body>
+</html>
