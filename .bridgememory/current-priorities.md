@@ -1,25 +1,37 @@
 # Current Priorities
 
-Derived from TASKS-V1.md and planning/ as of early July 2026. Update this file when a new milestone starts.
+Updated 2026-07-09 after the suite pivot (planning/REDESIGN_BRIEF_V2.md) and the public
+launch of the domain, lander, and docs. Update this file when a new milestone starts.
 
-## Status: V1 milestone complete
+## Status: domain live, lander + docs shipped, full site unreleased
 
-TASKS-V1.md ("Landing Page Live") is fully checked off: the static Astro site ships the landing page (`/`), `/dfy`, `/security`, `/compare`, short-link redirects, generated assets, and the public repo `ContractorKeith/contractortakeoff-site` is pushed. All verification steps (asset build, `astro check` + build, format check, visual smoke, no-em-dash check) passed.
+- **contractortakeoff.ai is live on Cloudflare** (nameservers moved from Namecheap 2026-07-08).
+  The apex and www serve the coming-soon lander from `coming-soon/index.html`, deployed by
+  direct upload to the Pages project `contractortakeoff`.
+- **docs.contractortakeoff.ai is live**: Astro Starlight suite docs from the private repo
+  `ContractorKeith/contractortakeoff-docs` (Pages project `contractortakeoff-docs`). Covers
+  Contractor Takeoff (pilot), Plan Markup (early access), and links out to the free engine's
+  MkDocs site. Lander links to it ("Read the docs").
+- **The full Astro site in src/ is intentionally NOT deployed.** REDESIGN_BRIEF_V2 is the
+  spec for it; some V1-era page copy predates the suite pivot. Do not deploy src/ to the
+  apex without a review against the V2 brief.
+- **Email caveat**: support@contractortakeoff.ai was Namecheap email forwarding and likely
+  broke when nameservers moved. The lander CTA and four docs pages temporarily use
+  keith@contractorkeith.com. `src/data/site.ts` still uses support@ (unreleased, left as is).
 
-There is no TASKS-V2 file yet. What follows is inferred from planning/; confirm with the user before treating it as committed site work.
+## Next
 
-## Likely next site work (from planning/)
-
-- **Support the v0.2.2 "Installable" product push** (product target ~Jul 13): the product roadmap's top fix is making `contractor-bid` actually installable (tagged release, PyPI, Homebrew tap). Site-side implications: keep install instructions and the `/github` / `/docs` links accurate, and the roadmap mentions a static version-check JSON hosted on the site.
-- **Founding Pro countdown**: the Founding Pro card shows "X of 20 left" and swaps to standard Pro pricing when slots hit zero; the site needs a way to keep that count current.
-- **Hero terminal demo**: landing page design calls for a real 30-second VHS-recorded terminal demo (webm/gif) as the hero visual, "not an illustration." Verify whether the current hero asset meets that or is a generated placeholder.
-- **v0.3.0 "Pro" launch support** (product target mid-Aug): pricing/FAQ copy may need updates when license activation and Pro features ship.
-- Email capture via Buttondown in the footer; confirm it is wired to a live list.
+1. Set up Cloudflare Email Routing for support@contractortakeoff.ai, verify delivery, then
+   swap the branded address back into the lander and docs.
+2. Fact-check the docs page plan-markup/limitations-and-roadmap against the actual
+   plan-markup-app code (the roadmap doc it was drafted from is behind the code).
+3. Decide the launch path for the full site: rework src/ pages to the V2 brief, then replace
+   the lander.
+4. Pilot outreach: the lander and docs are now safe to share with pilot prospects.
 
 ## Standing constraints (binding operating rules)
 
-- One primary offer at a time: currently DFY setup + Founding Pro. Nothing else gets a landing page.
+- One primary offer at a time: currently the pilot program. The $750 DFY setup survives only
+  as high-touch pilot onboarding (per REDESIGN_BRIEF_V2), not as a separate headline offer.
 - Ship something public every week.
 - Landing page changes are timeboxed; new feature ideas go to the product roadmap, not the site.
-
-TODO (user): replace the "Likely next site work" section with the actual next milestone when it is defined.

@@ -30,3 +30,19 @@ npm run build
 
 - Content pages: `/` (index), `/dfy`, `/security`, `/compare` in src/pages/
 - Short links: `/github`, `/founding`, `/call` are redirect pages in src/pages/; `/docs` and friends live in public/_redirects (Cloudflare Pages redirects file)
+
+## Deployment (as of 2026-07-09)
+
+Two Cloudflare Pages projects, both direct upload via wrangler (no git connection):
+
+- **`contractortakeoff`** serves contractortakeoff.ai + www. Currently serving the
+  `coming-soon/` lander, NOT the Astro build:
+  `npx wrangler pages deploy coming-soon --project-name contractortakeoff`
+- **`contractortakeoff-docs`** serves docs.contractortakeoff.ai (+ www.docs). Built from the
+  separate private repo `ContractorKeith/contractortakeoff-docs`:
+  `npm run build && npx wrangler pages deploy dist --project-name contractortakeoff-docs`
+
+DNS: apex/www/docs/www.docs are proxied CNAMEs to the matching pages.dev hostnames. The MX
+and TXT records are legacy Namecheap email forwarding (see current-priorities for the email
+caveat). The local wrangler OAuth token can write Pages but cannot edit DNS records; DNS
+changes happen in the dashboard.

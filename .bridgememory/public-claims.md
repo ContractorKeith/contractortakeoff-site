@@ -27,3 +27,20 @@ Sources: planning/MASTER_PLAN.md, planning/PRODUCT_ROADMAP.md, planning/LANDING_
 
 - No em dash characters anywhere in source content (verified check; use periods or colons).
 - Every page/content piece ends with exactly one CTA.
+
+## Suite era update (2026-07-09)
+
+planning/REDESIGN_BRIEF_V2.md section 2 supersedes the rules above where they conflict. The
+site now markets the **suite**: Contractor Takeoff (hosted bid command center, in pilot) +
+Plan Markup (Mac and browser measurement/markup) + the free MIT engine. Key deltas:
+
+- The hosted app MAY be described, but it is **in pilot and not live**: never imply anyone
+  can sign up or log in today. "Plans never leave your machine" belongs to the free local
+  engine and the no-server Plan Markup web app ONLY, never the hosted app.
+- Plan Markup claims are allowed as listed in the V2 brief (markup toolset, presets,
+  measurement with per-page scale, CSV takeoff, overlay/transfer, flattened or
+  Revu-compatible export, sidecar files, Mac + browser, embeds in Contractor Takeoff).
+- Everything else above still binds: no pricing claims, no auto-takeoff claims, no invented
+  statistics, honest comparisons.
+- Public docs live at docs.contractortakeoff.ai (private repo contractortakeoff-docs) and
+  follow these same rules; its CLAUDE.md carries them.
