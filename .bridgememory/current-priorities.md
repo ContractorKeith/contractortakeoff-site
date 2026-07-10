@@ -19,6 +19,15 @@ launch of the domain, lander, and docs. Update this file when a new milestone st
   broke when nameservers moved. The lander CTA and four docs pages temporarily use
   keith@contractorkeith.com. `src/data/site.ts` still uses support@ (unreleased, left as is).
 
+## Agents page merged (2026-07-10, main at 0b7dae1 — still unreleased with the rest of src/)
+
+- `src/pages/agents.astro` documents the agent-access pilot (hosted /api/v1 + two local MCP
+  adapters), linked from nav/footer. Copy was fact-checked against the actual feature
+  branches — no overclaims (no hosted/remote MCP, no OAuth promised). Pilot CTAs carry
+  `data-plausible-event-name="pilot_click"` like the rest of the site. Ships only when the
+  full src/ site launches per REDESIGN_BRIEF_V2.
+- Both new CTAs use `site.pilotHref` (support@) — covered by the existing email caveat below.
+
 ## Next
 
 1. Set up Cloudflare Email Routing for support@contractortakeoff.ai, verify delivery, then
