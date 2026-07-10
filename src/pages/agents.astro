@@ -44,7 +44,11 @@ const surfaces = [
             handing it a raw database, storage bucket, or unrestricted folder.
           </p>
           <div class="section-actions">
-            <a class="button safety" href={`${site.pilotHref}%20-%20Agent%20access`}>
+            <a
+              class="button safety"
+              href={`${site.pilotHref}%20-%20Agent%20access`}
+              data-plausible-event-name="pilot_click"
+            >
               Join the agent-access pilot
             </a>
             <a class="button secondary" href="/security">Read the security model</a>
@@ -128,7 +132,11 @@ const surfaces = [
             promising a generic chat box.
           </p>
           <div class="section-actions">
-            <a class="button safety" href={`${site.pilotHref}%20-%20Agent%20workflow`}>
+            <a
+              class="button safety"
+              href={`${site.pilotHref}%20-%20Agent%20workflow`}
+              data-plausible-event-name="pilot_click"
+            >
               Describe your workflow
             </a>
             <a class="button secondary" href="/security">Review the data boundaries</a>
