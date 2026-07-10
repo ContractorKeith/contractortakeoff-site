@@ -1,0 +1,141 @@
+---
+import { Bot, Braces, Cloud, KeyRound, LockKeyhole, Terminal } from "@lucide/astro";
+import SiteFooter from "@/components/SiteFooter.astro";
+import SiteNav from "@/components/SiteNav.astro";
+import { site } from "@/data/site";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const surfaces = [
+  {
+    title: "Hosted API",
+    body: "Connect an internal tool or automation to the same workspace-scoped bid, document, finding, note, and markup contracts used by the app.",
+    icon: Cloud,
+  },
+  {
+    title: "Contractor Takeoff MCP",
+    body: "Run a local stdio adapter for Claude, Codex, Cursor, or another MCP client. The adapter calls the hosted API; it never receives database or storage access.",
+    icon: Terminal,
+  },
+  {
+    title: "Plan Markup MCP",
+    body: "Let an agent read takeoff summaries and sanitized markup sidecars from folders you explicitly approve, without adding an account or cloud server to Plan Markup.",
+    icon: Braces,
+  },
+];
+---
+
+<BaseLayout
+  title="Use your own agents | Contractor Takeoff"
+  description="Contractor Takeoff is piloting a workspace-scoped API and local MCP adapters so estimators can use their preferred agents without bypassing tenant, file, or review boundaries."
+>
+  <SiteNav />
+  <main id="main-content">
+    <section class="subpage-hero">
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">AGT 01 / AGENT ACCESS</p>
+          <h1>Your workflow. Your agent.</h1>
+        </div>
+        <div class="reveal" style="--reveal-delay: 120ms">
+          <p class="lead">
+            Contractor Takeoff is piloting the app boundary agents actually need: a versioned API
+            plus local MCP adapters. Use your preferred agent to inspect a bid,
+            summarize source-backed findings, add a note, or read Plan Markup takeoff data without
+            handing it a raw database, storage bucket, or unrestricted folder.
+          </p>
+          <div class="section-actions">
+            <a class="button safety" href={`${site.pilotHref}%20-%20Agent%20access`}>
+              Join the agent-access pilot
+            </a>
+            <a class="button secondary" href="/security">Read the security model</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="reveal">
+          <p class="eyebrow">AGT 02 / CONNECTIONS</p>
+          <h2>One hosted API. Two scoped adapters.</h2>
+        </div>
+        <div class="cards stagger">
+          {
+            surfaces.map(item => {
+              const Icon = item.icon;
+              return (
+                <article class="card reveal">
+                  <Icon size={28} aria-hidden="true" />
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </article>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+
+    <div class="dither-edge" aria-hidden="true"></div>
+    <section class="section dark">
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">AGT 03 / AUTHORITY</p>
+          <h2>An agent gets a key, not the keys.</h2>
+        </div>
+        <div class="reveal" style="--reveal-delay: 120ms">
+          <div class="step-list">
+            <div class="step">
+              <KeyRound size={28} aria-hidden="true" />
+              <div>
+                <h3>Bound to one workspace membership</h3>
+                <p>
+                  A credential cannot silently inherit other company workspaces its user can see.
+                  Its granted scopes apply throughout the one workspace it belongs to.
+                </p>
+              </div>
+            </div>
+            <div class="step">
+              <LockKeyhole size={28} aria-hidden="true" />
+              <div>
+                <h3>Explicit, revocable scopes</h3>
+                <p>Read bids, add notes, or update markups only when that exact capability is granted.</p>
+              </div>
+            </div>
+            <div class="step">
+              <Bot size={28} aria-hidden="true" />
+              <div>
+                <h3>No delete or admin tools in v1</h3>
+                <p>Agents cannot delete documents, manage members, change billing, or trigger unbounded review work.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="dither-edge flip" aria-hidden="true"></div>
+
+    <section class="section tight trust-band">
+      <div class="container split">
+        <div class="reveal">
+          <p class="eyebrow">AGT 04 / PILOT</p>
+          <h2>Bring the workflow you want to automate.</h2>
+        </div>
+        <div class="reveal" style="--reveal-delay: 120ms">
+          <p class="lead">
+            Agent access is entering the same hands-on pilot as the hosted app. Tell us the task,
+            agent client, and data boundary you need. We will test the real workflow instead of
+            promising a generic chat box.
+          </p>
+          <div class="section-actions">
+            <a class="button safety" href={`${site.pilotHref}%20-%20Agent%20workflow`}>
+              Describe your workflow
+            </a>
+            <a class="button secondary" href="/security">Review the data boundaries</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

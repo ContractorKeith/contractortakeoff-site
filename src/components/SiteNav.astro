@@ -1,5 +1,8 @@
 ---
 import { navLinks, site } from "@/data/site";
+
+const normalizePath = (path: string) => path.replace(/\/$/, "") || "/";
+const currentPath = normalizePath(Astro.url.pathname);
 ---
 
 <header class="site-header">
@@ -23,7 +26,12 @@ import { navLinks, site } from "@/data/site";
       {
         navLinks.map(link => (
           <li>
-            <a href={link.href}>{link.label}</a>
+            <a
+              href={link.href}
+              aria-current={normalizePath(link.href) === currentPath ? "page" : undefined}
+            >
+              {link.label}
+            </a>
           </li>
         ))
       }
