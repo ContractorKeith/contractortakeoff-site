@@ -27,7 +27,7 @@ of contractor-bid-pro and plan-markup-app as they exist today.
   and markup transfer for addenda, flattened or Revu-compatible editable PDF export, local sidecar
   files that sync through Dropbox/iCloud. Runs on Mac and in the browser, and embeds inside
   Contractor Takeoff.
-- HONESTY (carried forward from .bridgememory/public-claims.md, still binding):
+- HONESTY (carried forward from docs/context/public-claims.md, still binding):
   - Never claim it prices jobs. Pricing stays the estimator's judgment.
   - No auto-takeoff / computer-vision measurement claims. Plan Markup measures because a human
     draws the measurement; Contractor Takeoff builds workspaces, it does not guess quantities.

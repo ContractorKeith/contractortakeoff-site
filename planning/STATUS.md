@@ -1,7 +1,7 @@
 # Launch Status
 
 Running log of what is actually live. Newest entry first. For binding copy rules see
-.bridgememory/public-claims.md; for the full-site spec see REDESIGN_BRIEF_V2.md.
+docs/context/public-claims.md; for the full-site spec see REDESIGN_BRIEF_V2.md.
 
 ## 2026-07-09: domain, lander, and docs live
 
